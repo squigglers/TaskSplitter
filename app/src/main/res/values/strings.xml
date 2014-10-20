@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Task Splitter</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_group">Create Group</string>
+    <string name="groupname_hint">Group Name</string>
+    <string name="join_group">Join Group</string>
+    <string name="access_code_hint">Access Code</string>
+    <string name="sign_in">Sign In</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="register">Register</string>
+    <string name="name_hint">Name</string>
+    <string name="confirm_password_hint">Confirm Password</string>
+    <string name='mismatched_passwords'>Passwords do not match.</string>
+    <string name="empty_input_fields">Please fill out all fields.</string>
+    <string name="username_regex">^[a-zA-Z0-9]*$</string>
+    <string name="username_incorrect_input">Username must be composed of only letters and numbers.</string>
+    <string name="name_regex">^[a-zA-Z \'-]*$</string>
+    <string name="name_incorrect_input">Are you sure you entered your name correctly?</string>
+    <string name="groupname_regex">^[a-zA-Z0-9 ]*$</string>
+    <string name="groupname_incorrect_input">Group name must be composed of only letters and numbers.</string>
+    <string name="username_taken">Username already taken.  Please choose a new username</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="incorrect_group_login">Incorrect group name or access code</string>
+    <string name="group_created_toast">Group created.</string>
+    <string name="group_joined_toast">Group joined.</string>
+    <string name="user_registration_completed_toast">User registration completed.</string>
+    <string name="sign_in_successful_toast">Sign in successful.</string>
+    <string name="sign_out_toast">You have been successfully signed out.</string>
+    <string name="not_logged_in_toast">You are not signed in.</string>
+
+</resources>
