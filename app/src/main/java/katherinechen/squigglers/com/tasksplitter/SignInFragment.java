@@ -97,7 +97,7 @@ public class SignInFragment extends Fragment {
 
         //show error toast if user login not validated
         if (userId == -1)
-            Toast.makeText(getActivity(), R.string.incorrect_group_login, Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.incorrect_user_login, Toast.LENGTH_LONG).show();
 
         return userId;
     }

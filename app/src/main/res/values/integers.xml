@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="max_length_username">15</integer>
+    <integer name="min_length_username">2</integer>
     <integer name="max_length_password">15</integer>
+    <integer name="min_length_password">4</integer>
     <integer name="max_length_name">30</integer>
     <integer name="max_length_groupname">20</integer>
     <integer name="max_length_access_code">10</integer>

@@ -6,15 +6,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Base64;
+import android.util.Log;
+
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 //interacts with database to update database entries
 public class DbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "TaskSplitter.db";
+    Context context;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
@@ -94,12 +102,15 @@ public class DbHelper extends SQLiteOpenHelper {
     //return groupid if validated, else return -1
     public int validateGroupLogin(String groupName, String accessCode)
     {
+        //get hashed accessCode
+        String hashedAccessCode = hashPassword(accessCode);
+
         int groupId = -1;
         SQLiteDatabase db = this.getWritableDatabase();
 
         String[] projection = {Group._ID, Group.NAME, Group.ACCESSCODE,};
         String selection = Group.NAME + "=?" + " AND " + Group.ACCESSCODE + "=?";
-        String[] selectionArgs = {groupName, accessCode};
+        String[] selectionArgs = {groupName, hashedAccessCode};
         Cursor c = db.query(Group.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         if(c.getCount() > 0)
@@ -115,12 +126,15 @@ public class DbHelper extends SQLiteOpenHelper {
     //return userid if validated, else return -1
     public int validatedUserLogin(String username, String password)
     {
+        //get hashed password
+        String hashedPassword = hashPassword(password);
+
         int userId = -1;
         SQLiteDatabase db = this.getWritableDatabase();
 
         String[] projection = {User._ID, User.USERNAME, User.PASSWORD};
         String selection = User.USERNAME + "=?" + " AND " + User.PASSWORD + "=?";
-        String[] selectionArgs = {username, password};
+        String[] selectionArgs = {username, hashedPassword};
         Cursor c = db.query(User.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         if(c.getCount() > 0)
@@ -132,15 +146,56 @@ public class DbHelper extends SQLiteOpenHelper {
         return userId;
     }
 
+    //hashes a password and uses SHA-256
+    //apparently bcrypt would be better for this assuming it's not too slow
+    public String hashPassword(String password)
+    {
+        String encoding = "UTF-8";
+        String hashAlgorithm = "SHA-256";
+
+        //turn salt and password to bytes
+        String salt = "aiw23784dskjhfh4jekw";
+        byte[] bSalt = null;
+        byte [] bPassword = null;
+        try {
+            bSalt = salt.getBytes(encoding);
+            bPassword = password.getBytes(encoding);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        //create message digester with hash algorithm
+        MessageDigest digester = null;
+        try {
+            digester = MessageDigest.getInstance(hashAlgorithm);
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("hashing", "no hash function");
+        }
+
+        //hash password into byte form
+        digester.update(bPassword);
+        byte [] digest = digester.digest(bSalt);
+
+        //convert byte form to String form
+        String hashedPassword = Base64.encodeToString(digest, 0, digest.length, 0);
+
+        //return hashed password
+        //Log.e("hashing", hashedPassword);
+        return hashedPassword;
+    }
+
     //<editor-fold desc="add tuple to tables">
     public int addUser(String name, String username, String password)
     {
+        //hash password
+        String hashedPassword = hashPassword(password);
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(User.NAME, name);
         values.put(User.USERNAME, username);
-        values.put(User.PASSWORD, password);
+        values.put(User.PASSWORD, hashedPassword);
 
         int userID = (int) db.insert(User.TABLE_NAME, null, values);
         db.close();
@@ -150,11 +205,14 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public int addGroup(String name, String accessCode)
     {
+        //hash accessCode
+        String hashedAccessCode = hashPassword(accessCode);
+
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
         values.put(Group.NAME, name);
-        values.put(Group.ACCESSCODE, accessCode);
+        values.put(Group.ACCESSCODE, hashedAccessCode);
 
         int groupID = (int) db.insert(Group.TABLE_NAME, null, values);
         db.close();

@@ -17,8 +17,8 @@ public class SessionManager {
     private static final String IS_LOGGEDIN = "IsLoggedIn";
     private static final String KEY_USERID = "userID";
 
-    private static final Class LOGOUTACTIVITY = SignInActivity.class;
-    private static final Class LOGINACTIVITY = MainActivity.class;
+    private static final Class LOGOUTACTIVITY = MainActivity.class; //activity that user redirects to when logging out
+    private static final Class LOGINACTIVITY = MainActivity.class;  //activity that user redirects to when logging in
 
     //constructor
     public SessionManager(Context context){

@@ -29,8 +29,11 @@
     <string name="group_created_toast">Group created.</string>
     <string name="group_joined_toast">Group joined.</string>
     <string name="user_registration_completed_toast">User registration completed.</string>
+    <string name="incorrect_user_login">Incorrect username or password.</string>
     <string name="sign_in_successful_toast">Sign in successful.</string>
     <string name="sign_out_toast">You have been successfully signed out.</string>
     <string name="not_logged_in_toast">You are not signed in.</string>
+    <string name="password_too_short">Password must be between %1$d and %2$d characters long.</string>
+    <string name="username_too_short">Username must be between %1$d and %2$d characters long.</string>
 
 </resources>

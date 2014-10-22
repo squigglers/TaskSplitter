@@ -1,6 +1,7 @@
 package katherinechen.squigglers.com.tasksplitter;
 
 import android.app.Fragment;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,6 +74,12 @@ public class RegisterFragment extends Fragment {
     //check that all input fields are correct
     //returns true if correct, false if otherwise and shows error message toast
     private boolean inputCheck(String name, String username, String password, String confirmPassword) {
+        Resources res = getResources();
+        int minPasswordLength = res.getInteger(R.integer.min_length_password);
+        int maxPasswordLength = res.getInteger(R.integer.max_length_password);
+        int minUsernameLength = res.getInteger(R.integer.min_length_username);
+        int maxUsernameLength = res.getInteger(R.integer.max_length_username);
+
         boolean correctInput = true;
         String error = "";
 
@@ -87,6 +94,14 @@ public class RegisterFragment extends Fragment {
         else if(!name.matches(getString(R.string.name_regex))) {
             correctInput = false;
             error = getString(R.string.name_incorrect_input);
+        }
+
+        //if username is too short
+        else if(username.length() < minUsernameLength)
+        {
+            correctInput = false;
+            error = String.format(getString(R.string.username_too_short),
+                    minUsernameLength, maxUsernameLength);
         }
 
         //if username is not alphanumeric characters
@@ -107,6 +122,14 @@ public class RegisterFragment extends Fragment {
         {
             correctInput = false;
             error = getString(R.string.mismatched_passwords);
+        }
+
+        //if password is too short
+        else if(password.length() < minPasswordLength)
+        {
+            correctInput = false;
+            error = String.format(getString(R.string.password_too_short),
+                    minPasswordLength, maxPasswordLength);
         }
 
         //show error toast if any incorrect input
