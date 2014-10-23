@@ -9,6 +9,10 @@
         android:title="@string/join_group"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item android:id="@+id/menu_my_groups"
+        android:title="@string/my_groups"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
     <item android:id="@+id/menu_sign_out"
         android:title="@string/sign_out"
         android:orderInCategory="100"

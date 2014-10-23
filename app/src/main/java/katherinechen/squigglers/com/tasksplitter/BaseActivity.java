@@ -45,6 +45,8 @@ public class BaseActivity extends Activity{
             onClickMenuRegister(item);
         else if(id == R.id.menu_sign_out)
             onClickMenuSignOut(item);
+        else if(id == R.id.menu_my_groups)
+            onClickMenuMyGroups(item);
         else
             handled = super.onOptionsItemSelected(item);
 
@@ -68,6 +70,11 @@ public class BaseActivity extends Activity{
 
     private void onClickMenuRegister(MenuItem item) {
         Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
+
+    private void onClickMenuMyGroups(MenuItem item) {
+        Intent intent = new Intent(this, MyGroupsActivity.class);
         startActivity(intent);
     }
 
