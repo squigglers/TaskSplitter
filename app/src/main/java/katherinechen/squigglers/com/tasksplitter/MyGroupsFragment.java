@@ -1,6 +1,8 @@
 package katherinechen.squigglers.com.tasksplitter;
 
 import android.app.Activity;
+import android.app.ListFragment;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +14,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import java.util.ArrayList;
+import java.util.List;
 
 import katherinechen.squigglers.com.tasksplitter.dummy.DummyContent;
 
@@ -24,7 +30,8 @@ import katherinechen.squigglers.com.tasksplitter.dummy.DummyContent;
  * <p />
  * interface.
  */
-public class MyGroupsFragment extends Fragment implements AbsListView.OnItemClickListener {
+
+/*public class MyGroupsFragment extends Fragment implements AbsListView.OnItemClickListener {
     private SessionManager session;
     private DbHelper dbhelper;
     OnFragmentInteractionListener mCallback;
@@ -39,20 +46,20 @@ public class MyGroupsFragment extends Fragment implements AbsListView.OnItemClic
     private String accessCode;
 
     private OnFragmentInteractionListener mListener;
-
+*/
     /**
      * The fragment's ListView/GridView.
      */
-    private AbsListView mListView;
+    //private AbsListView mListView;
 
     /**
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    //private ListAdapter mAdapter;
 
     // TODO: Rename and change types of parameters
-    public static MyGroupsFragment newInstance(String group, String code) {
+   /* public static MyGroupsFragment newInstance(String group, String code) {
         MyGroupsFragment fragment = new MyGroupsFragment();
         Bundle args = new Bundle();
         args.putString(GROUPNAME, group);
@@ -60,16 +67,18 @@ public class MyGroupsFragment extends Fragment implements AbsListView.OnItemClic
         fragment.setArguments(args);
         return fragment;
     }
+    */
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public MyGroupsFragment() {
+   /* public MyGroupsFragment() {
     }
 
+*/
 
-
+/*
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,18 +139,21 @@ public class MyGroupsFragment extends Fragment implements AbsListView.OnItemClic
         }
     }
 
+    */
+
     /**
      * The default content for this Fragment has a TextView that is shown when
      * the list is empty. If you would like to change the text, call this method
      * to supply the text it should use.
      */
-    public void setEmptyText(CharSequence emptyText) {
+ /*   public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
 
         if (emptyText instanceof TextView) {
             ((TextView) emptyView).setText(emptyText);
         }
     }
+*/
 
     /**
     * This interface must be implemented by activities that contain this
@@ -153,18 +165,62 @@ public class MyGroupsFragment extends Fragment implements AbsListView.OnItemClic
     * "http://developer.android.com/training/basics/fragments/communicating.html"
     * >Communicating with Other Fragments</a> for more information.
     */
-    public interface OnFragmentInteractionListener {
+  /*  public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
-
+*/
    // @Override
-   public void onListItemClick(ListView l, View v, int position, String id) {
+/*   public void onListItemClick(ListView l, View v, int position, String id) {
         mCallback.onFragmentInteraction(id);
     }
+
 
     public void setSession(SessionManager session)
     {
         this.session = session;
     }
 }
+    */
+
+public class MyGroupsFragment extends ListFragment {
+        private SessionManager session;
+        private DbHelper dbhelper;
+        private List<ListViewItem> mItems;
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+
+            mItems = new ArrayList<ListViewItem>();
+            Resources resources = getResources();
+
+            mItems.add(new ListViewItem("Example 1"));
+            mItems.add(new ListViewItem("Example 2"));
+            mItems.add(new ListViewItem("Example 3"));
+
+            setListAdapter(new ListViewAdapter(getActivity().getApplicationContext(), mItems));
+
+        }
+
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+
+            //getListView().setDivider(null);
+        }
+
+        @Override
+        public void onListItemClick(ListView l, View v, int position, long id) {
+            ListViewItem item = mItems.get(position);
+
+            Toast.makeText(getActivity(), item.getItemTitle(), Toast.LENGTH_LONG).show();;
+        }
+
+        public void setSession(SessionManager session)
+        {
+            this.session = session;
+        }
+    }
+
+

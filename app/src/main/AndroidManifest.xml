@@ -32,6 +32,10 @@
             android:name=".RegisterActivity"
             android:label="@string/register" >
         </activity>
+        <activity
+            android:name=".MyGroupsActivity"
+            android:label="@string/my_groups" >
+        </activity>
     </application>
 
 </manifest>
