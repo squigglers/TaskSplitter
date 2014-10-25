@@ -12,8 +12,10 @@ import android.util.Log;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 
 //interacts with database to update database entries
+//note: groupy is the table for group
 public class DbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
@@ -31,7 +33,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         db.execSQL(User.SQL_CREATE_ENTRIES);
-        db.execSQL(Group.SQL_CREATE_ENTRIES);
+        db.execSQL(Groupy.SQL_CREATE_ENTRIES);
         db.execSQL(UserGroup.SQL_CREATE_ENTRIES);
         db.execSQL(Task.SQL_CREATE_ENTRIES);
         db.execSQL(GroupTask.SQL_CREATE_ENTRIES);
@@ -42,7 +44,7 @@ public class DbHelper extends SQLiteOpenHelper {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
         db.execSQL(User.SQL_DELETE_ENTRIES);
-        db.execSQL(Group.SQL_DELETE_ENTRIES);
+        db.execSQL(Groupy.SQL_DELETE_ENTRIES);
         db.execSQL(UserGroup.SQL_DELETE_ENTRIES);
         db.execSQL(Task.SQL_DELETE_ENTRIES);
         db.execSQL(GroupTask.SQL_DELETE_ENTRIES);
@@ -53,7 +55,7 @@ public class DbHelper extends SQLiteOpenHelper {
     //do not use unless we want to clear the database
     public void clearDatabase() {
         db.execSQL(User.SQL_DELETE_ENTRIES);
-        db.execSQL(Group.SQL_DELETE_ENTRIES);
+        db.execSQL(Groupy.SQL_DELETE_ENTRIES);
         db.execSQL(UserGroup.SQL_DELETE_ENTRIES);
         db.execSQL(Task.SQL_DELETE_ENTRIES);
         db.execSQL(GroupTask.SQL_DELETE_ENTRIES);
@@ -61,16 +63,26 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    //gets all the groups a user is in and returns it as a cursor
-    public Cursor getUserGroups(int userId) {
+    //gets all the groups a user is in and returns it in an array
+    public ArrayList<Group> getUserGroups(int userId) {
 
-        //select groupId from Group, UserGroup where Group.Id = UserGroup.userId and UserGroup.userId = userId
-        String query = "SELECT " + Group._ID + " FROM " + Group.TABLE_NAME + ", " + UserGroup.TABLE_NAME
-                + " WHERE " + Group._ID + " = " + UserGroup.USER_ID + " AND " + UserGroup.USER_ID + " = " + userId;
-
+        //select groupId from Group, UserGroup where Group.Id = UserGroup.groupId and UserGroup.userId = userId
+        String query = "SELECT " + Groupy._ID + ", " + Groupy.NAME +
+                " FROM " + Groupy.TABLE_NAME + ", " + UserGroup.TABLE_NAME
+                + " WHERE " + Groupy._ID + " = " + UserGroup.GROUP_ID + " AND " + UserGroup.USER_ID + " = " + userId;
         Cursor c = db.rawQuery(query, null);
 
-        return c;
+        //store all of a user's groupId and groupname into userGroups
+        ArrayList<Group> userGroups = new ArrayList<Group>(c.getCount());
+        if(c.moveToFirst())
+        {
+            do{
+                Group group = new Group(c.getInt(0), c.getString(1));
+                userGroups.add(group);
+            }while (c.moveToNext());
+        }
+
+        return userGroups;
     }
 
     //checks to see if the username is already taken in the user table
@@ -96,10 +108,10 @@ public class DbHelper extends SQLiteOpenHelper {
     {
         boolean exists = false;
 
-        String[] projection = {Group.ACCESSCODE};
-        String selection = Group.ACCESSCODE + "=?";
+        String[] projection = {Groupy.ACCESSCODE};
+        String selection = Groupy.ACCESSCODE + "=?";
         String[] selectionArgs = {accessCode};
-        Cursor c = db.query(Group.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         if(c.getCount() > 0)
             exists = true;
@@ -116,15 +128,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
         int groupId = -1;
 
-        String[] projection = {Group._ID, Group.NAME, Group.ACCESSCODE,};
-        String selection = Group.NAME + "=?" + " AND " + Group.ACCESSCODE + "=?";
+        String[] projection = {Groupy._ID, Groupy.NAME, Groupy.ACCESSCODE,};
+        String selection = Groupy.NAME + "=?" + " AND " + Groupy.ACCESSCODE + "=?";
         String[] selectionArgs = {groupName, hashedAccessCode};
-        Cursor c = db.query(Group.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         if(c.getCount() > 0)
         {
             c.moveToFirst();
-            groupId = c.getInt(c.getColumnIndexOrThrow(Group._ID));
+            groupId = c.getInt(c.getColumnIndexOrThrow(Groupy._ID));
         }
 
         return groupId;
@@ -213,10 +225,10 @@ public class DbHelper extends SQLiteOpenHelper {
         String hashedAccessCode = hashPassword(accessCode);
 
         ContentValues values = new ContentValues();
-        values.put(Group.NAME, name);
-        values.put(Group.ACCESSCODE, hashedAccessCode);
+        values.put(Groupy.NAME, name);
+        values.put(Groupy.ACCESSCODE, hashedAccessCode);
 
-        int groupID = (int) db.insert(Group.TABLE_NAME, null, values);
+        int groupID = (int) db.insert(Groupy.TABLE_NAME, null, values);
 
         return groupID;
     }
@@ -271,7 +283,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //group table - stores information about the group (id, name, accessCode)
-    public static abstract class Group implements BaseColumns {
+    public static abstract class Groupy implements BaseColumns {
         public static final String TABLE_NAME = "groupy";
         public static final String NAME = "name";
         public static final String ACCESSCODE = "accessCode";
