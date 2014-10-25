@@ -5,21 +5,20 @@ import android.os.Bundle;
 
 
 public class SignInActivity extends BaseActivity implements SessionInterface {
-    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        session = super.session;
-        setFragmentSession();
+        setFragmentInfo();
     }
 
     @Override
-    public void setFragmentSession() {
+    public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
         SignInFragment fragment = (SignInFragment) fm.findFragmentById(R.id.sign_in_fragment);
-        fragment.setSession(session);
+        fragment.setSession(super.session);
+        fragment.setDbhelper(super.dbhelper);
     }
 }

@@ -18,15 +18,18 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "TaskSplitter.db";
+    SQLiteDatabase db;
     Context context;
 
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+        db = this.getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(User.SQL_CREATE_ENTRIES);
         db.execSQL(Group.SQL_CREATE_ENTRIES);
         db.execSQL(UserGroup.SQL_CREATE_ENTRIES);
@@ -49,8 +52,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //do not use unless we want to clear the database
     public void clearDatabase() {
-        SQLiteDatabase db = this.getWritableDatabase();
-
         db.execSQL(User.SQL_DELETE_ENTRIES);
         db.execSQL(Group.SQL_DELETE_ENTRIES);
         db.execSQL(UserGroup.SQL_DELETE_ENTRIES);
@@ -60,12 +61,23 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //gets all the groups a user is in and returns it as a cursor
+    public Cursor getUserGroups(int userId) {
+
+        //select groupId from Group, UserGroup where Group.Id = UserGroup.userId and UserGroup.userId = userId
+        String query = "SELECT " + Group._ID + " FROM " + Group.TABLE_NAME + ", " + UserGroup.TABLE_NAME
+                + " WHERE " + Group._ID + " = " + UserGroup.USER_ID + " AND " + UserGroup.USER_ID + " = " + userId;
+
+        Cursor c = db.rawQuery(query, null);
+
+        return c;
+    }
+
     //checks to see if the username is already taken in the user table
     //return true if username already exists, else return false
     public boolean checkUsernameExists(String username)
     {
         boolean exists = false;
-        SQLiteDatabase db = this.getWritableDatabase();
 
         String[] projection = {User.USERNAME};
         String selection = User.USERNAME + "=?";
@@ -75,7 +87,6 @@ public class DbHelper extends SQLiteOpenHelper {
         if(c.getCount() > 0)
             exists = true;
 
-        db.close();
         return exists;
     }
 
@@ -84,7 +95,6 @@ public class DbHelper extends SQLiteOpenHelper {
     public boolean checkAccessCodeExists(String accessCode)
     {
         boolean exists = false;
-        SQLiteDatabase db = this.getWritableDatabase();
 
         String[] projection = {Group.ACCESSCODE};
         String selection = Group.ACCESSCODE + "=?";
@@ -94,7 +104,6 @@ public class DbHelper extends SQLiteOpenHelper {
         if(c.getCount() > 0)
             exists = true;
 
-        db.close();
         return exists;
     }
 
@@ -106,7 +115,6 @@ public class DbHelper extends SQLiteOpenHelper {
         String hashedAccessCode = hashPassword(accessCode);
 
         int groupId = -1;
-        SQLiteDatabase db = this.getWritableDatabase();
 
         String[] projection = {Group._ID, Group.NAME, Group.ACCESSCODE,};
         String selection = Group.NAME + "=?" + " AND " + Group.ACCESSCODE + "=?";
@@ -130,7 +138,6 @@ public class DbHelper extends SQLiteOpenHelper {
         String hashedPassword = hashPassword(password);
 
         int userId = -1;
-        SQLiteDatabase db = this.getWritableDatabase();
 
         String[] projection = {User._ID, User.USERNAME, User.PASSWORD};
         String selection = User.USERNAME + "=?" + " AND " + User.PASSWORD + "=?";
@@ -190,15 +197,12 @@ public class DbHelper extends SQLiteOpenHelper {
         //hash password
         String hashedPassword = hashPassword(password);
 
-        SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(User.NAME, name);
         values.put(User.USERNAME, username);
         values.put(User.PASSWORD, hashedPassword);
 
         int userID = (int) db.insert(User.TABLE_NAME, null, values);
-        db.close();
 
         return userID;
     }
@@ -208,53 +212,41 @@ public class DbHelper extends SQLiteOpenHelper {
         //hash accessCode
         String hashedAccessCode = hashPassword(accessCode);
 
-        SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(Group.NAME, name);
         values.put(Group.ACCESSCODE, hashedAccessCode);
 
         int groupID = (int) db.insert(Group.TABLE_NAME, null, values);
-        db.close();
 
         return groupID;
     }
 
     public void addUserGroup(int groupID, int userID)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(UserGroup.GROUP_ID, groupID);
         values.put(UserGroup.USER_ID, userID);
 
         db.insert(UserGroup.TABLE_NAME, null, values);
-        db.close();
     }
 
     public void addTask(String name, String description)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(Task.NAME, name);
         values.put(Task.DESCRIPTION, description);
 
         db.insert(Task.TABLE_NAME, null, values);
-        db.close();
     }
 
     public void addGroupTask(int taskId, int groupId, int userId)
     {
-        SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(GroupTask.TASK_ID, taskId);
         values.put(GroupTask.GROUP_ID, groupId);
         values.put(GroupTask.USER_ID, userId);
 
         db.insert(GroupTask.TABLE_NAME, null, values);
-        db.close();
     }
     //</editor-fold>
 

@@ -5,21 +5,20 @@ import android.os.Bundle;
 
 
 public class RegisterActivity extends BaseActivity implements SessionInterface {
-    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        session = super.session;
-        setFragmentSession();
+        setFragmentInfo();
     }
 
     @Override
-    public void setFragmentSession() {
+    public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
         RegisterFragment fragment = (RegisterFragment) fm.findFragmentById(R.id.register_fragment);
-        fragment.setSession(session);
+        fragment.setSession(super.session);
+        fragment.setDbhelper(super.dbhelper);
     }
 }

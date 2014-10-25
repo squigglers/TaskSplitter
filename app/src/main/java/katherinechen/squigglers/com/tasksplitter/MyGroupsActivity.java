@@ -1,17 +1,11 @@
 package katherinechen.squigglers.com.tasksplitter;
 
-import android.app.Activity;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 
-public class MyGroupsActivity extends BaseActivity implements SessionInterface {
-
-    SessionManager session;
+public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,18 +16,19 @@ public class MyGroupsActivity extends BaseActivity implements SessionInterface {
 
         //getActivity().getSupportFragmentManager().
         //        beginTransaction().add(android.R.id.content,list).commit();        session = super.session;
-        setFragmentSession();
+        setFragmentInfo();
     }
 
     @Override
-    public void setFragmentSession() {
+    public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
         MyGroupsFragment fragment = (MyGroupsFragment) fm.findFragmentById(R.id.my_groups_fragment);
         /*MyGroupsFragment fragment = new MyGroupsFragment();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.add(android.R.id.content, fragment);
         fragmentTransaction.commit();*/
-        fragment.setSession(session);
+        fragment.setSession(super.session);
+        fragment.setDbhelper(super.dbhelper);
     }
 
     public void onFragmentInteraction(String id) {

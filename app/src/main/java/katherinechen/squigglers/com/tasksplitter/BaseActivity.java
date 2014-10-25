@@ -9,11 +9,13 @@ import android.view.MenuItem;
 //base activity class that defines common behaviors for all activities
 public class BaseActivity extends Activity{
     SessionManager session;
+    DbHelper dbhelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         session = new SessionManager(getApplicationContext());
+        dbhelper = new DbHelper(this);
     }
 
     //inflates different menus based on whether user is logged in or logged out

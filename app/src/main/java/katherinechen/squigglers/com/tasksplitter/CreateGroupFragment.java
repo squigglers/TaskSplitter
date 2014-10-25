@@ -21,7 +21,6 @@ public class CreateGroupFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbhelper = new DbHelper(getActivity());
     }
 
     @Override
@@ -148,5 +147,9 @@ public class CreateGroupFragment extends Fragment {
     public void setSession(SessionManager session)
     {
         this.session = session;
+    }
+
+    public void setDbhelper(DbHelper dbhelper) {
+       this.dbhelper = dbhelper;
     }
 }

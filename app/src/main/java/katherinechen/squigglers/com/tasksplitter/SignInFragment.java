@@ -18,7 +18,6 @@ public class SignInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbhelper = new DbHelper(getActivity());
     }
 
     @Override
@@ -105,5 +104,9 @@ public class SignInFragment extends Fragment {
     public void setSession(SessionManager session)
     {
         this.session = session;
+    }
+
+    public void setDbhelper(DbHelper dbhelper) {
+        this.dbhelper = dbhelper;
     }
 }

@@ -1,26 +1,14 @@
 package katherinechen.squigglers.com.tasksplitter;
 
-import android.app.Activity;
 import android.app.ListFragment;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.List;
-
-import katherinechen.squigglers.com.tasksplitter.dummy.DummyContent;
 
 /**
  * A fragment representing a list of Items.
@@ -220,6 +208,10 @@ public class MyGroupsFragment extends ListFragment {
         public void setSession(SessionManager session)
         {
             this.session = session;
+        }
+
+        public void setDbhelper(DbHelper dbhelper) {
+            this.dbhelper = dbhelper;
         }
     }
 

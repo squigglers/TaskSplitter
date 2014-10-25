@@ -5,21 +5,20 @@ import android.os.Bundle;
 
 
 public class JoinGroupActivity extends LoggedInBaseActivity implements SessionInterface {
-    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join_group);
 
-        session = super.session;
-        setFragmentSession();
+        setFragmentInfo();
     }
 
     @Override
-    public void setFragmentSession() {
+    public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
         JoinGroupFragment fragment = (JoinGroupFragment) fm.findFragmentById(R.id.join_group_fragment);
-        fragment.setSession(session);
+        fragment.setSession(super.session);
+        fragment.setDbhelper(super.dbhelper);
     }
 }
