@@ -76,7 +76,7 @@ public class BaseActivity extends Activity{
     }
 
     private void onClickMenuMyGroups(MenuItem item) {
-        Intent intent = new Intent(this, MyGroupsActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 

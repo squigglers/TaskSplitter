@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<pre-dex-items>
+
+    <item
+        dex="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.0-ee576f91b45a6538d4156fc6e674b6f65034f74e.jar"
+        jar="/Applications/Android Studio.app/sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.0/support-annotations-21.0.0.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="1a578b9607b36266c63d43a4fa0ab5664dbe911e"/>
+    <item
+        dex="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/pre-dexed/debug/classes-6842ea544be3c3189972d6ea84083eb26f0c5c42.jar"
+        jar="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="686344a780033e4ba22b926cd225f8d4941247e6"/>
+    <item
+        dex="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-7ea69480def1e4973c77fe333de5c7544e7f8acf.jar"
+        jar="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.0/libs/internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0"/>
+    <item
+        dex="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/pre-dexed/debug/classes-f45b95a2aa9bde0edebcd1833734228568151ad7.jar"
+        jar="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.0/classes.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="0c0c19759e5868604a3b4c2c0074ee9404d73c76"/>
+    <item
+        dex="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.0-3900274b105c88dcc1939a2370dd9d908e28d559.jar"
+        jar="/Users/lindsaycampbell/TaskSplitter3/Chores/app/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.0/libs/internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="5a8e01742aee890c56fe638ea7c921b91a3fdc62"/>
+
+</pre-dex-items>
