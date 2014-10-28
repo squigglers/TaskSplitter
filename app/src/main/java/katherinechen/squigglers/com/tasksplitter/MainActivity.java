@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
 
-    session = new SessionManager(getApplicationContext());
+        session = new SessionManager(getApplicationContext());
         dbhelper = new DbHelper(this);
 
 
@@ -83,7 +84,7 @@ public class MainActivity extends BaseActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         if(savedInstanceState == null) {
-            selectItem(0);
+            //selectItem(0);
         }
     }
 }
@@ -233,6 +234,8 @@ public  class GroupFragment extends Fragment {
             mGroupTitles[x] = groups.get(x).getGroupname();
         }
         String group = mGroupTitles[i];
+        TextView groupNameTextView = (TextView) rootView.findViewById(R.id.groupName);
+        groupNameTextView.setText(group);
         // int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
         //        "drawable", getActivity().getPackageName());
         // ((TextView) rootView.findViewById(R.id.image)).setImageResource(imageId);
