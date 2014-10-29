@@ -59,23 +59,11 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/AssignToSpinner"
+        android:id="@+id/assignToSpinner"
         android:layout_below="@+id/groupSpinner"
         android:layout_toRightOf="@+id/textView2"
         android:layout_toEndOf="@+id/textView2"
         android:layout_alignRight="@+id/groupSpinner"
         android:layout_alignEnd="@+id/groupSpinner" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="date"
-        android:ems="10"
-        android:id="@+id/taskDeadline"
-        android:hint="@string/deadline_hint"
-        android:layout_below="@+id/AssignToSpinner"
-        android:layout_alignRight="@+id/AssignToSpinner"
-        android:layout_alignEnd="@+id/AssignToSpinner"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
 </RelativeLayout>

@@ -35,13 +35,14 @@ public class CreateTaskFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        setGroupSpinner();  //fills group drop down menu
+        setGroupSpinner();  //fills both groups and [users in group] drop down menus
+
+        //POSSIBLY ADD DEADLINE HERE ONE DAY
     }
-
-
 
     //fills the group drop down menu with the user's groups
     private void setGroupSpinner() {
+        //get cursor storing groupId, groupname
         Cursor cursor = dbhelper.getUserGroupsCursor(session.getUserId());
 
         //create an array to specify which fields we want to display
@@ -58,12 +59,15 @@ public class CreateTaskFragment extends Fragment {
         Spinner spinner = (Spinner) view.findViewById(R.id.groupSpinner);
         spinner.setAdapter(adapter);
 
-        //get group selected in order to fill assign to spinner
+        //get group selected in order to fill other spinner with users in the group selected
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Cursor c = (Cursor)parent.getItemAtPosition(position);
                 int selectedGroupId = c.getInt(c.getColumnIndexOrThrow(DbHelper.Groupy._ID));
+
+                //fill assignToSpinner
+                setUsersSpinner(selectedGroupId);
             }
 
             @Override
@@ -71,6 +75,26 @@ public class CreateTaskFragment extends Fragment {
 
             }
         });
+    }
+
+    //fills the users drop down menu with the users in the group selected
+    private void setUsersSpinner(int groupId) {
+        //get cursor storing userId, name
+        Cursor cursor = dbhelper.getUsersInGroup(groupId);
+
+        //create an array to specify which fields we want to display
+        String[] from = new String[]{DbHelper.User.NAME};
+        //create an array of the display item we want to bind our data to
+        int[] to = new int[]{android.R.id.text1};
+
+        //create simple cursor adapter
+        SimpleCursorAdapter adapter =
+                new SimpleCursorAdapter(getActivity(), android.R.layout.simple_spinner_item, cursor, from, to, 0);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        //get reference to our spinner
+        Spinner spinner = (Spinner) view.findViewById(R.id.assignToSpinner);
+        spinner.setAdapter(adapter);
     }
 
     public void setSession(SessionManager session)
