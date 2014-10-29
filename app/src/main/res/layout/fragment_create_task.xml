@@ -1,13 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="katherinechen.squigglers.com.tasksplitter.CreateTaskFragment">
+<?xml version="1.0" encoding="utf-8"?>
 
-    <!-- TODO: Update blank fragment layout -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="@dimen/create_task_width"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/taskName"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/input_field_top_margin"
+        android:hint="@string/task_name_hint" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/TaskDescription"
+        android:layout_below="@+id/taskName"
+        android:layout_alignLeft="@+id/taskName"
+        android:layout_alignStart="@+id/taskName"
+        android:layout_alignRight="@+id/taskName"
+        android:layout_alignEnd="@+id/taskName"
+        android:hint="@string/description_hint"
+        android:inputType="textMultiLine" />
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/group"
+        android:id="@+id/textView"
+        android:layout_below="@+id/TaskDescription"
+        android:layout_alignLeft="@+id/TaskDescription"
+        android:layout_alignStart="@+id/TaskDescription" />
 
-</FrameLayout>
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/groupSpinner"
+        android:layout_alignTop="@+id/textView"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_alignRight="@+id/TaskDescription"
+        android:layout_alignEnd="@+id/TaskDescription" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="@string/assign_to"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/groupSpinner"
+        android:layout_alignLeft="@+id/textView"
+        android:layout_alignStart="@+id/textView" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/AssignToSpinner"
+        android:layout_below="@+id/groupSpinner"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_toEndOf="@+id/textView2"
+        android:layout_alignRight="@+id/groupSpinner"
+        android:layout_alignEnd="@+id/groupSpinner" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/taskDeadline"
+        android:hint="@string/deadline_hint"
+        android:layout_below="@+id/AssignToSpinner"
+        android:layout_alignRight="@+id/AssignToSpinner"
+        android:layout_alignEnd="@+id/AssignToSpinner"
+        android:layout_alignLeft="@+id/textView2"
+        android:layout_alignStart="@+id/textView2" />
+</RelativeLayout>

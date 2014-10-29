@@ -1,12 +1,10 @@
 package katherinechen.squigglers.com.tasksplitter;
 
-import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 
-public class CreateTaskActivity extends Activity {
+public class CreateTaskActivity extends LoggedInBaseActivity implements SessionInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,23 +12,14 @@ public class CreateTaskActivity extends Activity {
         setContentView(R.layout.activity_create_task);
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.create_task, menu);
-        return true;
-    }
+    public void setFragmentInfo() {
+        FragmentManager fm = getFragmentManager();
+        //CreateGroupFragment fragment = (CreateGroupFragment) fm.findFragmentById(R.id.create_group_fragment);
+        CreateGroupFragment fragment = new CreateGroupFragment();
+        fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        fragment.setSession(super.session);
+        fragment.setDbhelper(super.dbhelper);
     }
 }

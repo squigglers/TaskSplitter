@@ -229,7 +229,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public  class GroupFragment extends Fragment {
+    public class GroupFragment extends Fragment {
         public static final String ARG_GROUP_NUMBER = "group_number";
 
         SessionManager session;

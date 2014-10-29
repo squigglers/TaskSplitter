@@ -54,6 +54,12 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
+    <string name="task_name_hint">Task Name</string>
+    <string name="group">Group</string>
+    <string name="assign_to">Assign To</string>
+    <string name="description_hint">Description</string>
+    <string name="Deadline" />
+    <string name="deadline_hint">Deadline</string>
 
 
 </resources>
