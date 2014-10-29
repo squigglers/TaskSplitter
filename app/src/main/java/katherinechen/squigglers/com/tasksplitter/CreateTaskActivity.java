@@ -10,15 +10,14 @@ public class CreateTaskActivity extends LoggedInBaseActivity implements SessionI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_task);
+
+        setFragmentInfo();
     }
 
     @Override
     public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
-        //CreateGroupFragment fragment = (CreateGroupFragment) fm.findFragmentById(R.id.create_group_fragment);
-        CreateGroupFragment fragment = new CreateGroupFragment();
-        fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
-
+        CreateTaskFragment fragment = (CreateTaskFragment) fm.findFragmentById(R.id.create_task_fragment);
         fragment.setSession(super.session);
         fragment.setDbhelper(super.dbhelper);
     }

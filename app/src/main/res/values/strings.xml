@@ -58,8 +58,7 @@
     <string name="group">Group</string>
     <string name="assign_to">Assign To</string>
     <string name="description_hint">Description</string>
-    <string name="Deadline" />
     <string name="deadline_hint">Deadline</string>
-
+    <string name="title_activity_start_page">StartPageActivity</string>
 
 </resources>

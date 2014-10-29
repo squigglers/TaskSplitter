@@ -60,6 +60,18 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    //gets all the groups a user is in and returns it in a cursor
+    public Cursor getUserGroupsCursor(int userId) {
+
+        //select groupId from Group, UserGroup where Group.Id = UserGroup.groupId and UserGroup.userId = userId
+        String query = "SELECT " + Groupy._ID + ", " + Groupy.NAME +
+                " FROM " + Groupy.TABLE_NAME + ", " + UserGroup.TABLE_NAME
+                + " WHERE " + Groupy._ID + " = " + UserGroup.GROUP_ID + " AND " + UserGroup.USER_ID + " = " + userId;
+        Cursor c = db.rawQuery(query, null);
+
+        return c;
+    }
+
     //gets all the groups a user is in and returns it in an array
     public ArrayList<Group> getUserGroups(int userId) {
 

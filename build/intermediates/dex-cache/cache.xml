@@ -2,6 +2,12 @@
 <pre-dex-items>
 
     <item
+        dex="D:\Katherine\Desktop\Chores - Copy\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-8131ed8ad2ec1e0984582fbc944ab5613b0246aa.jar"
+        jar="D:\Katherine\Desktop\Chores - Copy\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.0\libs\internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0"/>
+    <item
         dex="D:\Katherine\Desktop\Chores\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-14e1d3f4aa56bf274b9425b84838d28500808214.jar"
         jar="D:\Katherine\Desktop\Chores\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.0\libs\internal_impl-21.0.0.jar"
         jumboMode="false"
@@ -14,14 +20,32 @@
         revision="21.0.1"
         sha1="1609e6d42d0480b0f4188e2c29f75388fa12a8f0"/>
     <item
+        dex="D:\Katherine\Desktop\Chores - Copy\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.0-2e83fabc02e3b00d6ca0d6be8985929ddd0436a6.jar"
+        jar="D:\Katherine\Desktop\Chores - Copy\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.0\libs\internal_impl-21.0.0.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="5a8e01742aee890c56fe638ea7c921b91a3fdc62"/>
+    <item
         dex="D:\Katherine\Desktop\Chores\app\build\intermediates\pre-dexed\debug\classes-1c89e32b2c38aaff36ced2fcabee9ba269b7bba7.jar"
         jar="D:\Katherine\Desktop\Chores\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.0\classes.jar"
         jumboMode="false"
         revision="21.0.1"
         sha1="0c0c19759e5868604a3b4c2c0074ee9404d73c76"/>
     <item
+        dex="D:\Katherine\Desktop\Chores - Copy\app\build\intermediates\pre-dexed\debug\classes-a4547839bf9f30b09b745846a03121b506b1489e.jar"
+        jar="D:\Katherine\Desktop\Chores - Copy\app\build\intermediates\exploded-aar\com.android.support\support-v13\21.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="0c0c19759e5868604a3b4c2c0074ee9404d73c76"/>
+    <item
         dex="D:\Katherine\Desktop\Chores\app\build\intermediates\pre-dexed\debug\classes-3237d1227d06d37813f26bdcb0a0a665164cd07f.jar"
         jar="D:\Katherine\Desktop\Chores\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.0\classes.jar"
+        jumboMode="false"
+        revision="21.0.1"
+        sha1="686344a780033e4ba22b926cd225f8d4941247e6"/>
+    <item
+        dex="D:\Katherine\Desktop\Chores - Copy\app\build\intermediates\pre-dexed\debug\classes-97e859e6ec197664e108adcb71a3964d3e8f1fc0.jar"
+        jar="D:\Katherine\Desktop\Chores - Copy\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.0\classes.jar"
         jumboMode="false"
         revision="21.0.1"
         sha1="686344a780033e4ba22b926cd225f8d4941247e6"/>
