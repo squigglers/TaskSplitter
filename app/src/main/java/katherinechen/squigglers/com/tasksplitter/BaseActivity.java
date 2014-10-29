@@ -49,6 +49,8 @@ public class BaseActivity extends Activity{
             onClickMenuSignOut(item);
         else if(id == R.id.menu_my_groups)
             onClickMenuMyGroups(item);
+        else if(id == R.id.menu_create_task)
+            onClickMenuCreateTask(item);
         else
             handled = super.onOptionsItemSelected(item);
 
@@ -80,6 +82,10 @@ public class BaseActivity extends Activity{
         startActivity(intent);
     }
 
+    private void onClickMenuCreateTask(MenuItem item) {
+        Intent intent = new Intent(this, CreateTaskActivity.class);
+        startActivity(intent);
+    }
     private void onClickMenuSignOut(MenuItem item) {
         session.logoutUser();
     }

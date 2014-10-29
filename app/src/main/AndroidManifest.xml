@@ -36,6 +36,10 @@
             android:name=".MyGroupsActivity"
             android:label="@string/my_groups" >
         </activity>
+        <activity
+            android:name=".CreateTaskActivity"
+            android:label="@string/create_task" >
+        </activity>
     </application>
 
 </manifest>

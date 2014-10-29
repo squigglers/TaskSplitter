@@ -36,7 +36,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(Groupy.SQL_CREATE_ENTRIES);
         db.execSQL(UserGroup.SQL_CREATE_ENTRIES);
         db.execSQL(Task.SQL_CREATE_ENTRIES);
-        db.execSQL(GroupTask.SQL_CREATE_ENTRIES);
     }
 
     @Override
@@ -47,7 +46,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(Groupy.SQL_DELETE_ENTRIES);
         db.execSQL(UserGroup.SQL_DELETE_ENTRIES);
         db.execSQL(Task.SQL_DELETE_ENTRIES);
-        db.execSQL(GroupTask.SQL_DELETE_ENTRIES);
 
         onCreate(db);
     }
@@ -58,7 +56,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(Groupy.SQL_DELETE_ENTRIES);
         db.execSQL(UserGroup.SQL_DELETE_ENTRIES);
         db.execSQL(Task.SQL_DELETE_ENTRIES);
-        db.execSQL(GroupTask.SQL_DELETE_ENTRIES);
 
         onCreate(db);
     }
@@ -242,24 +239,20 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(UserGroup.TABLE_NAME, null, values);
     }
 
-    public void addTask(String name, String description)
+    public void addTask(int groupId, int assignerId, int toUserId,
+                        String taskName, String description, String dueDate)
     {
         ContentValues values = new ContentValues();
-        values.put(Task.NAME, name);
+        values.put(Task.GROUP_ID, groupId);
+        values.put(Task.ASSIGNER_ID, assignerId);
+        values.put(Task.TO_USER_ID, toUserId);
+        values.put(Task.TASK_NAME, taskName);
         values.put(Task.DESCRIPTION, description);
+        values.put(Task.DUE_DATE, dueDate);
 
         db.insert(Task.TABLE_NAME, null, values);
     }
 
-    public void addGroupTask(int taskId, int groupId, int userId)
-    {
-        ContentValues values = new ContentValues();
-        values.put(GroupTask.TASK_ID, taskId);
-        values.put(GroupTask.GROUP_ID, groupId);
-        values.put(GroupTask.USER_ID, userId);
-
-        db.insert(GroupTask.TABLE_NAME, null, values);
-    }
     //</editor-fold>
 
     //<editor-fold desc="table metadata">
@@ -313,22 +306,30 @@ public class DbHelper extends SQLiteOpenHelper {
                 "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
-    //task table - stores information about a task (id, name, description, deadline)
+    //task table - stores information about a task
     public static abstract class Task implements BaseColumns {
         public static final String TABLE_NAME = "task";
-        public static final String NAME = "name";
+        public static final String GROUP_ID = "groupId";        //group that the task is in
+        public static final String ASSIGNER_ID = "fromUserId";  //user that assigned the task
+        public static final String TO_USER_ID = "toUserId";     //user that the task is assigned to
+        public static final String TASK_NAME = "name";
         public static final String DESCRIPTION = "description";
+        public static final String DUE_DATE = "dueDate";
 
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         _ID + " INTEGER PRIMARY KEY, " +
-                        NAME + " TEXT, " +
-                        DESCRIPTION + " TEXT)";
+                        GROUP_ID + " INTEGER, " +
+                        ASSIGNER_ID + " INTEGER, " +
+                        TO_USER_ID + " INTEGER, " +
+                        TASK_NAME + " TEXT, " +
+                        DESCRIPTION + " TEXT, " +
+                        DUE_DATE + " TEXT)";
 
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
-
+/*
     //groupTask table - stores which group and user to which a task is assigned
     public static abstract class GroupTask implements BaseColumns {
         public static final String TABLE_NAME = "groupTask";
@@ -345,5 +346,6 @@ public class DbHelper extends SQLiteOpenHelper {
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
+*/
     //</editor-fold>
 }
