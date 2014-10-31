@@ -1,23 +1,9 @@
 package katherinechen.squigglers.com.tasksplitter;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends LoggedInBaseActivity {
@@ -41,53 +27,53 @@ public class MainActivity extends LoggedInBaseActivity {
 
         session = new SessionManager(getApplicationContext());
         dbhelper = new DbHelper(this);
+    }
 
+/*
+        if (session.isLoggedIn()) {
+            mTitle = mDrawerTitle = getTitle();
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-
-    if(session.isLoggedIn()) {
-        mTitle = mDrawerTitle = getTitle();
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-
-        ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
-        mGroupTitles = new String[groups.size()];
-        for(int x=0; x<groups.size(); x++) {
-            mGroupTitles[x] = groups.get(x).getGroupname();
-        }
-        mDrawerList = (ListView) findViewById(R.id.left_drawer);
-
-
-        mDrawerList.setAdapter(
-                new ArrayAdapter<String>(
-                        this,
-                        R.layout.drawer_list_item,
-                        mGroupTitles));
-
-        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
-
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setHomeButtonEnabled(true);
-
-        mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, R.drawable.ic_drawer,
-                R.string.drawer_open, R.string.drawer_close
-        ) {
-            public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
+            mGroupTitles = new String[groups.size()];
+            for (int x = 0; x < groups.size(); x++) {
+                mGroupTitles[x] = groups.get(x).getGroupname();
             }
+            mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
-            public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+
+            mDrawerList.setAdapter(
+                    new ArrayAdapter<String>(
+                            this,
+                            R.layout.drawer_list_item,
+                            mGroupTitles));
+
+            mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeButtonEnabled(true);
+
+            mDrawerToggle = new ActionBarDrawerToggle(
+                    this, mDrawerLayout, R.drawable.ic_drawer,
+                    R.string.drawer_open, R.string.drawer_close
+            ) {
+                public void onDrawerClosed(View view) {
+                    getActionBar().setTitle(mTitle);
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                }
+
+                public void onDrawerOpened(View drawerView) {
+                    getActionBar().setTitle(mDrawerTitle);
+                    invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                }
+            };
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+            if (savedInstanceState == null) {
+                //selectItem(0);
             }
-        };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        if(savedInstanceState == null) {
-            //selectItem(0);
         }
     }
-}
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
@@ -101,7 +87,7 @@ public class MainActivity extends LoggedInBaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //inflates loggedinMenu if user is logged in
-        if(session.isLoggedIn())
+        if (session.isLoggedIn())
             getMenuInflater().inflate(R.menu.loggedinmenu, menu);
 
 
@@ -122,17 +108,17 @@ public class MainActivity extends LoggedInBaseActivity {
             return true;
         }
 
-        if(id == R.id.menu_create_group)
+        if (id == R.id.menu_create_group)
             onClickMenuCreateGroup(item);
-        else if(id == R.id.menu_join_group)
+        else if (id == R.id.menu_join_group)
             onClickMenuJoinGroup(item);
-        else if(id == R.id.menu_sign_in)
+        else if (id == R.id.menu_sign_in)
             onClickMenuSignIn(item);
-        else if(id == R.id.menu_register)
+        else if (id == R.id.menu_register)
             onClickMenuRegister(item);
-        else if(id == R.id.menu_sign_out)
+        else if (id == R.id.menu_sign_out)
             onClickMenuSignOut(item);
-        else if(id == R.id.menu_my_groups)
+        else if (id == R.id.menu_my_groups)
             onClickMenuMyGroups(item);
         else
             handled = super.onOptionsItemSelected(item);
@@ -170,13 +156,13 @@ public class MainActivity extends LoggedInBaseActivity {
     }
 
 
-private class DrawerItemClickListener implements ListView.OnItemClickListener {
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view,
-                            int position, long id) {
-        selectItem(position);
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view,
+                                int position, long id) {
+            selectItem(position);
+        }
     }
-}
 
     private void selectItem(int position) {
         Fragment fragment = new GroupFragment();
@@ -211,36 +197,36 @@ private class DrawerItemClickListener implements ListView.OnItemClickListener {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-public  class GroupFragment extends Fragment {
-    public static final String ARG_GROUP_NUMBER = "group_number";
+    public class GroupFragment extends Fragment {
+        public static final String ARG_GROUP_NUMBER = "group_number";
 
-    SessionManager session;
-    DbHelper dbhelper;
+        SessionManager session;
+        DbHelper dbhelper;
 
-    public GroupFragment() {
-        // Empty constructor required for fragment subclasses
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        session = new SessionManager(getApplicationContext());
-        dbhelper = new DbHelper(getApplicationContext());
-        View rootView = inflater.inflate(R.layout.fragment_group, container, false);
-        int i = getArguments().getInt(ARG_GROUP_NUMBER);
-        ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
-        String mGroupTitles []= new String[groups.size()];
-        for(int x=0; x<groups.size(); x++) {
-            mGroupTitles[x] = groups.get(x).getGroupname();
+        public GroupFragment() {
+            // Empty constructor required for fragment subclasses
         }
-        String group = mGroupTitles[i];
-        TextView groupNameTextView = (TextView) rootView.findViewById(R.id.groupName);
-        groupNameTextView.setText(group);
-        // int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
-        //        "drawable", getActivity().getPackageName());
-        // ((TextView) rootView.findViewById(R.id.image)).setImageResource(imageId);
-        getActivity().setTitle(group);
-        return rootView;
-    }
-}
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            session = new SessionManager(getApplicationContext());
+            dbhelper = new DbHelper(getApplicationContext());
+            View rootView = inflater.inflate(R.layout.fragment_group, container, false);
+            int i = getArguments().getInt(ARG_GROUP_NUMBER);
+            ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
+            String mGroupTitles[] = new String[groups.size()];
+            for (int x = 0; x < groups.size(); x++) {
+                mGroupTitles[x] = groups.get(x).getGroupname();
+            }
+            String group = mGroupTitles[i];
+            TextView groupNameTextView = (TextView) rootView.findViewById(R.id.groupName);
+            groupNameTextView.setText(group);
+            // int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
+            //        "drawable", getActivity().getPackageName());
+            // ((TextView) rootView.findViewById(R.id.image)).setImageResource(imageId);
+            getActivity().setTitle(group);
+            return rootView;
+        }
+    }*/
 }

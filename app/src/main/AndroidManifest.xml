@@ -39,6 +39,10 @@
             android:name=".CreateTaskActivity"
             android:label="@string/create_task" >
         </activity>
+        <activity
+            android:name=".StartPageActivity"
+            android:label="@string/title_activity_start_page" >
+        </activity>
     </application>
 
 </manifest>

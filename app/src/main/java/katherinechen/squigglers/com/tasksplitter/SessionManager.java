@@ -44,7 +44,7 @@ public class SessionManager {
             redirectActivity(LOGOUTACTIVITY);
 
             //toast to show user that they are not logged in
-            Toast.makeText(context, context.getString(R.string.not_logged_in_toast), Toast.LENGTH_LONG).show();
+            //Toast.makeText(context, context.getString(R.string.not_logged_in_toast), Toast.LENGTH_LONG).show();
         }
     }
 
