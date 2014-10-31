@@ -353,23 +353,5 @@ public class DbHelper extends SQLiteOpenHelper {
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
-/*
-    //groupTask table - stores which group and user to which a task is assigned
-    public static abstract class GroupTask implements BaseColumns {
-        public static final String TABLE_NAME = "groupTask";
-        public static final String TASK_ID = "taskId";
-        public static final String GROUP_ID = "groupId";
-        public static final String USER_ID = "userId";
-
-        public static final String SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        TASK_ID + " INTEGER, " +
-                        GROUP_ID + " INTEGER, " +
-                        USER_ID + " INTEGER)";
-
-        public static final String SQL_DELETE_ENTRIES =
-                "DROP TABLE IF EXISTS " + TABLE_NAME;
-    }
-*/
     //</editor-fold>
 }

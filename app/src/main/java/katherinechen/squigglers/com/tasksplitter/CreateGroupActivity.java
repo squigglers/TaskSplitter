@@ -28,6 +28,8 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
 
         session = new SessionManager(getApplicationContext());
         dbhelper = new DbHelper(this);
+
+        setFragmentInfo();
     }
 
 /*
@@ -80,7 +82,6 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
             }
         }
 
-        setFragmentInfo();
     }
 
     @Override

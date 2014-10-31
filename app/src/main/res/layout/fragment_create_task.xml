@@ -12,12 +12,13 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/input_field_top_margin"
-        android:hint="@string/task_name_hint" />
+        android:hint="@string/task_name_hint"
+        android:maxLength="@integer/max_length_name" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/TaskDescription"
+        android:id="@+id/taskDescription"
         android:layout_below="@+id/taskName"
         android:layout_alignLeft="@+id/taskName"
         android:layout_alignStart="@+id/taskName"
@@ -31,39 +32,48 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/group"
-        android:id="@+id/textView"
-        android:layout_below="@+id/TaskDescription"
-        android:layout_alignLeft="@+id/TaskDescription"
-        android:layout_alignStart="@+id/TaskDescription" />
+        android:id="@+id/groupTextView"
+        android:layout_below="@+id/taskDescription"
+        android:layout_alignLeft="@+id/taskDescription"
+        android:layout_alignStart="@+id/taskDescription" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/groupSpinner"
-        android:layout_alignTop="@+id/textView"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_alignRight="@+id/TaskDescription"
-        android:layout_alignEnd="@+id/TaskDescription" />
+        android:layout_alignTop="@+id/groupTextView"
+        android:layout_toRightOf="@+id/groupTextView"
+        android:layout_toEndOf="@+id/groupTextView"
+        android:layout_alignRight="@+id/taskDescription"
+        android:layout_alignEnd="@+id/taskDescription" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/assign_to"
-        android:id="@+id/textView2"
+        android:id="@+id/assignToTextView"
         android:layout_below="@+id/groupSpinner"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView" />
+        android:layout_alignLeft="@+id/groupTextView"
+        android:layout_alignStart="@+id/groupTextView" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/assignToSpinner"
         android:layout_below="@+id/groupSpinner"
-        android:layout_toRightOf="@+id/textView2"
-        android:layout_toEndOf="@+id/textView2"
+        android:layout_toRightOf="@+id/assignToTextView"
+        android:layout_toEndOf="@+id/assignToTextView"
         android:layout_alignRight="@+id/groupSpinner"
         android:layout_alignEnd="@+id/groupSpinner" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/create_task"
+        android:id="@+id/create_task_button"
+        android:layout_below="@+id/assignToSpinner"
+        android:layout_alignRight="@+id/assignToSpinner"
+        android:layout_alignEnd="@+id/assignToSpinner" />
 
 </RelativeLayout>
