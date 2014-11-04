@@ -60,7 +60,7 @@ public class DbHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    //gets all the groups a user is in and returns it in a cursor
+    //gets all the groups (id, name) a user is in and returns it in a cursor
     public Cursor getUserGroupsCursor(int userId) {
 
         //select groupId, groupname from Group, UserGroup where Group.Id = UserGroup.groupId and UserGroup.userId = userId
@@ -72,7 +72,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    //gets all the users (real name) in a group and returns it in a cursor
+    //gets all the users (id, real name) in a group and returns it in a cursor
     public Cursor getUsersInGroup(int groupId) {
 
         //select userId, name from User, UserGroup where User.Id = UserGroup.userId and UserGroup.groupId = groupId
@@ -80,6 +80,30 @@ public class DbHelper extends SQLiteOpenHelper {
                 " FROM " + User.TABLE_NAME + ", " + UserGroup.TABLE_NAME
                 + " WHERE " + User._ID + " = " + UserGroup.USER_ID + " AND " + UserGroup.GROUP_ID + " = " + groupId;
         Cursor c = db.rawQuery(query, null);
+
+        return c;
+    }
+
+    //gets all the tasks based on user and group and returns it in a cursor
+    public Cursor getUserTasksInGroup(int userId, int groupId) {
+
+        //select taskId, taskname, taskdescription, assignerId, completed from Task
+        //where Task.userId = userId and Task.groupId = groupId
+        //order by completed
+        final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED};
+        final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?";
+        final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId)};
+        final String sortOrder = Task.COMPLETED;
+/*
+        return new CursorLoader(activity, null, projection, selection, selectionArgs, null) {
+            @Override
+            public Cursor loadInBackground() {
+                SQLiteDatabase db = getReadableDatabase();
+                return db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+            }
+        };
+*/
+        Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 
         return c;
     }
@@ -95,12 +119,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
         //store all of a user's groupId and groupname into userGroups
         ArrayList<Group> userGroups = new ArrayList<Group>(c.getCount());
-        if(c.moveToFirst())
-        {
-            do{
+        if (c.moveToFirst()) {
+            do {
                 Group group = new Group(c.getInt(0), c.getString(1));
                 userGroups.add(group);
-            }while (c.moveToNext());
+            } while (c.moveToNext());
         }
 
         return userGroups;
@@ -108,8 +131,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //checks to see if the username is already taken in the user table
     //return true if username already exists, else return false
-    public boolean checkUsernameExists(String username)
-    {
+    public boolean checkUsernameExists(String username) {
         boolean exists = false;
 
         String[] projection = {User.USERNAME};
@@ -117,7 +139,7 @@ public class DbHelper extends SQLiteOpenHelper {
         String[] selectionArgs = {username};
         Cursor c = db.query(User.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
-        if(c.getCount() > 0)
+        if (c.getCount() > 0)
             exists = true;
 
         return exists;
@@ -125,8 +147,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //check to see if access code already exists in the group table
     //return true if access code already exists, else return false
-    public boolean checkAccessCodeExists(String accessCode)
-    {
+    public boolean checkAccessCodeExists(String accessCode) {
         boolean exists = false;
 
         String[] projection = {Groupy.ACCESSCODE};
@@ -134,7 +155,7 @@ public class DbHelper extends SQLiteOpenHelper {
         String[] selectionArgs = {accessCode};
         Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
-        if(c.getCount() > 0)
+        if (c.getCount() > 0)
             exists = true;
 
         return exists;
@@ -142,20 +163,18 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //validates group login
     //return groupid if validated, else return -1
-    public int validateGroupLogin(String groupName, String accessCode)
-    {
+    public int validateGroupLogin(String groupName, String accessCode) {
         //get hashed accessCode
         String hashedAccessCode = hashPassword(accessCode);
 
         int groupId = -1;
 
-        String[] projection = {Groupy._ID, Groupy.NAME, Groupy.ACCESSCODE,};
+        String[] projection = {Groupy._ID, Groupy.NAME, Groupy.ACCESSCODE};
         String selection = Groupy.NAME + "=?" + " AND " + Groupy.ACCESSCODE + "=?";
         String[] selectionArgs = {groupName, hashedAccessCode};
         Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
-        if(c.getCount() > 0)
-        {
+        if (c.getCount() > 0) {
             c.moveToFirst();
             groupId = c.getInt(c.getColumnIndexOrThrow(Groupy._ID));
         }
@@ -165,8 +184,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //validates user login
     //return userid if validated, else return -1
-    public int validatedUserLogin(String username, String password)
-    {
+    public int validatedUserLogin(String username, String password) {
         //get hashed password
         String hashedPassword = hashPassword(password);
 
@@ -177,8 +195,7 @@ public class DbHelper extends SQLiteOpenHelper {
         String[] selectionArgs = {username, hashedPassword};
         Cursor c = db.query(User.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
-        if(c.getCount() > 0)
-        {
+        if (c.getCount() > 0) {
             c.moveToFirst();
             userId = c.getInt(c.getColumnIndexOrThrow(User._ID));
         }
@@ -188,15 +205,14 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //hashes a password and uses SHA-256
     //apparently bcrypt would be better for this assuming it's not too slow
-    public String hashPassword(String password)
-    {
+    public String hashPassword(String password) {
         String encoding = "UTF-8";
         String hashAlgorithm = "SHA-256";
 
         //turn salt and password to bytes
         String salt = "aiw23784dskjhfh4jekw";
         byte[] bSalt = null;
-        byte [] bPassword = null;
+        byte[] bPassword = null;
         try {
             bSalt = salt.getBytes(encoding);
             bPassword = password.getBytes(encoding);
@@ -214,7 +230,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         //hash password into byte form
         digester.update(bPassword);
-        byte [] digest = digester.digest(bSalt);
+        byte[] digest = digester.digest(bSalt);
 
         //convert byte form to String form
         String hashedPassword = Base64.encodeToString(digest, 0, digest.length, 0);
@@ -225,8 +241,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     //<editor-fold desc="add tuple to tables">
-    public int addUser(String name, String username, String password)
-    {
+    public int addUser(String name, String username, String password) {
         //hash password
         String hashedPassword = hashPassword(password);
 
@@ -240,8 +255,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return userID;
     }
 
-    public int addGroup(String name, String accessCode)
-    {
+    public int addGroup(String name, String accessCode) {
         //hash accessCode
         String hashedAccessCode = hashPassword(accessCode);
 
@@ -254,8 +268,7 @@ public class DbHelper extends SQLiteOpenHelper {
         return groupID;
     }
 
-    public void addUserGroup(int groupID, int userID)
-    {
+    public void addUserGroup(int groupID, int userID) {
         ContentValues values = new ContentValues();
         values.put(UserGroup.GROUP_ID, groupID);
         values.put(UserGroup.USER_ID, userID);
@@ -263,16 +276,16 @@ public class DbHelper extends SQLiteOpenHelper {
         db.insert(UserGroup.TABLE_NAME, null, values);
     }
 
-    public void addTask(int groupId, int assignerId, int toUserId,
-                        String taskName, String description, String dueDate)
-    {
+    public void addTask(int groupId, int toUserId, int assignerId,
+                        String taskName, String description, String dueDate, int completed) {
         ContentValues values = new ContentValues();
         values.put(Task.GROUP_ID, groupId);
+        values.put(Task.USER_ID, toUserId);
         values.put(Task.ASSIGNER_ID, assignerId);
-        values.put(Task.TO_USER_ID, toUserId);
         values.put(Task.TASK_NAME, taskName);
         values.put(Task.DESCRIPTION, description);
         values.put(Task.DUE_DATE, dueDate);
+        values.put(Task.COMPLETED, completed);
 
         db.insert(Task.TABLE_NAME, null, values);
     }
@@ -335,20 +348,22 @@ public class DbHelper extends SQLiteOpenHelper {
         public static final String TABLE_NAME = "task";
         public static final String GROUP_ID = "groupId";        //group that the task is in
         public static final String ASSIGNER_ID = "fromUserId";  //user that assigned the task
-        public static final String TO_USER_ID = "toUserId";     //user that the task is assigned to
+        public static final String USER_ID = "toUserId";     //user that the task is assigned to
         public static final String TASK_NAME = "name";
         public static final String DESCRIPTION = "description";
         public static final String DUE_DATE = "dueDate";
+        public static final String COMPLETED = "completed";
 
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         _ID + " INTEGER PRIMARY KEY, " +
                         GROUP_ID + " INTEGER, " +
                         ASSIGNER_ID + " INTEGER, " +
-                        TO_USER_ID + " INTEGER, " +
+                        USER_ID + " INTEGER, " +
                         TASK_NAME + " TEXT, " +
                         DESCRIPTION + " TEXT, " +
-                        DUE_DATE + " TEXT)";
+                        DUE_DATE + " TEXT, " +
+                        COMPLETED + " INTEGER)";
 
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TABLE_NAME;

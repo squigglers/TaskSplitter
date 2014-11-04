@@ -63,5 +63,7 @@
     <string name="not_in_any_groups">You are not in any groups.</string>
     <string name="task_created">Task created.</string>
     <string name="taskname_empty">Please fill out the task name.</string>
+    <string name="title_activity_user_tasks">UserTasksActivity</string>
+    <string name="view_user_tasks">view user tasks</string>
 
 </resources>

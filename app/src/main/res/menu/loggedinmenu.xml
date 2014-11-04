@@ -20,4 +20,8 @@
         android:title="@string/sign_out"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item android:id="@+id/menu_view_user_tasks"
+        android:title="@string/view_user_tasks"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
 </menu>

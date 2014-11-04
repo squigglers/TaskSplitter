@@ -51,10 +51,16 @@ public class BaseActivity extends Activity{
             onClickMenuMyGroups(item);
         else if(id == R.id.menu_create_task)
             onClickMenuCreateTask(item);
+        else if(id == R.id.menu_view_user_tasks)
+            onClickMenuViewUserTasks(item);
         else
             handled = super.onOptionsItemSelected(item);
 
         return handled;
+    }
+    private void onClickMenuViewUserTasks(MenuItem item) {
+        Intent intent = new Intent(this, UserTasksActivity.class);
+        startActivity(intent);
     }
 
     private void onClickMenuCreateGroup(MenuItem item) {
