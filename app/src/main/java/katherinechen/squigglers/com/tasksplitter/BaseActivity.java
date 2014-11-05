@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 //base activity class that defines common behaviors for all activities
-public class BaseActivity extends Activity{
+public class BaseActivity extends Activity {
     SessionManager session;
     DbHelper dbhelper;
 
@@ -22,10 +22,10 @@ public class BaseActivity extends Activity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //inflates loggedinMenu if user is logged in
-        if(session.isLoggedIn())
+        if (session.isLoggedIn())
             getMenuInflater().inflate(R.menu.loggedinmenu, menu);
 
-        //inflates loggedoutMenu if user is logged out
+            //inflates loggedoutMenu if user is logged out
         else
             getMenuInflater().inflate(R.menu.loggedoutmenu, menu);
         return true;
@@ -37,27 +37,28 @@ public class BaseActivity extends Activity{
         boolean handled = true;
         int id = item.getItemId();
 
-        if(id == R.id.menu_create_group)
+        if (id == R.id.menu_create_group)
             onClickMenuCreateGroup(item);
-        else if(id == R.id.menu_join_group)
+        else if (id == R.id.menu_join_group)
             onClickMenuJoinGroup(item);
-        else if(id == R.id.menu_sign_in)
+        else if (id == R.id.menu_sign_in)
             onClickMenuSignIn(item);
-        else if(id == R.id.menu_register)
+        else if (id == R.id.menu_register)
             onClickMenuRegister(item);
-        else if(id == R.id.menu_sign_out)
+        else if (id == R.id.menu_sign_out)
             onClickMenuSignOut(item);
-        else if(id == R.id.menu_my_groups)
+        else if (id == R.id.menu_my_groups)
             onClickMenuMyGroups(item);
-        else if(id == R.id.menu_create_task)
+        else if (id == R.id.menu_create_task)
             onClickMenuCreateTask(item);
-        else if(id == R.id.menu_view_user_tasks)
+        else if (id == R.id.menu_view_user_tasks)
             onClickMenuViewUserTasks(item);
         else
             handled = super.onOptionsItemSelected(item);
 
         return handled;
     }
+
     private void onClickMenuViewUserTasks(MenuItem item) {
         Intent intent = new Intent(this, UserTasksActivity.class);
         startActivity(intent);
@@ -92,6 +93,7 @@ public class BaseActivity extends Activity{
         Intent intent = new Intent(this, CreateTaskActivity.class);
         startActivity(intent);
     }
+
     private void onClickMenuSignOut(MenuItem item) {
         session.logoutUser();
     }

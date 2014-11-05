@@ -18,7 +18,7 @@ public class UserTasksActivity extends LoggedInBaseActivity implements SessionIn
     public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
         UserTasksFragment fragment = (UserTasksFragment) fm.findFragmentById(R.id.user_tasks_fragment);
-        fragment.setSession(super.session);
-        fragment.setDbhelper(super.dbhelper);
+        fragment.setSession(session);
+        fragment.setDbhelper(dbhelper);
     }
 }

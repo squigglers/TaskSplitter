@@ -181,7 +181,7 @@ public class CreateTaskFragment extends Fragment {
             groupSpinner.setAdapter(adapter);
 
             //set original position of group spinner
-            if(groupPosition != -1 && !groupEmpty)
+            if (groupPosition != -1 && !groupEmpty)
                 groupSpinner.setSelection(groupPosition);
             else
                 groupPosition = 0;
@@ -197,7 +197,7 @@ public class CreateTaskFragment extends Fragment {
                 //group/user positions
                 int originalGroupPosition = groupPosition;
                 groupPosition = parent.getSelectedItemPosition();   //save position in group drop down menu
-                if(groupPosition != originalGroupPosition)
+                if (groupPosition != originalGroupPosition)
                     userPosition = 0;
 
                 //fill user drop down menu

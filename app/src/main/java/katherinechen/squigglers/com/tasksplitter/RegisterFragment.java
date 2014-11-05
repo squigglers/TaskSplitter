@@ -34,7 +34,7 @@ public class RegisterFragment extends Fragment {
 
     //"Register" button listener
     private void registerButtonClick(final View view) {
-        registerButton.setOnClickListener(new View.OnClickListener(){
+        registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 registerProcess(view); //do this when "Register" button is clicked
@@ -58,7 +58,7 @@ public class RegisterFragment extends Fragment {
 
         //if correctInput = true
         //insert name, username, and password to database and login user
-        if(correctInput) {
+        if (correctInput) {
             int userId = createUser(name, username, password);
             session.createLoginSession(userId);
 
@@ -84,55 +84,51 @@ public class RegisterFragment extends Fragment {
 
         //if any fields are empty
         if (name.equals("") || username.equals("") ||
-            password.equals("") || confirmPassword.equals("")) {
+                password.equals("") || confirmPassword.equals("")) {
             correctInput = false;
             error = getString(R.string.empty_input_fields);
         }
 
         //if name is not letters and spaces
-        else if(!name.matches(getString(R.string.name_regex))) {
+        else if (!name.matches(getString(R.string.name_regex))) {
             correctInput = false;
             error = getString(R.string.name_incorrect_input);
         }
 
         //if username is too short
-        else if(username.length() < minUsernameLength)
-        {
+        else if (username.length() < minUsernameLength) {
             correctInput = false;
             error = String.format(getString(R.string.username_too_short),
                     minUsernameLength, maxUsernameLength);
         }
 
         //if username is not alphanumeric characters
-        else if(!username.matches(getString(R.string.username_regex))) {
+        else if (!username.matches(getString(R.string.username_regex))) {
             correctInput = false;
             error = getString(R.string.username_incorrect_input);
         }
 
         //if username is already taken
-        else if(checkUsernameExists(username))
-        {
+        else if (checkUsernameExists(username)) {
             correctInput = false;
             error = getString(R.string.username_taken);
         }
 
         //if passwords don't match
-        else if(!passwordMatches(password, confirmPassword))
-        {
+        else if (!passwordMatches(password, confirmPassword)) {
             correctInput = false;
             error = getString(R.string.mismatched_passwords);
         }
 
         //if password is too short
-        else if(password.length() < minPasswordLength)
-        {
+        else if (password.length() < minPasswordLength) {
             correctInput = false;
             error = String.format(getString(R.string.password_too_short),
                     minPasswordLength, maxPasswordLength);
         }
 
         //show error toast if any incorrect input
-        if(!correctInput)
+        if (!correctInput)
             Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
 
         return correctInput;
@@ -150,21 +146,19 @@ public class RegisterFragment extends Fragment {
     }
 
     //check if username is already taken
-    private boolean checkUsernameExists(String username)
-    {
+    private boolean checkUsernameExists(String username) {
         return dbhelper.checkUsernameExists(username);
     }
 
     //checks to make sure user entered the same input for password and confirm password
     private boolean passwordMatches(String password1, String password2) {
-        if(password1.equals(password2))
+        if (password1.equals(password2))
             return true;
         else
             return false;
     }
 
-    public void setSession(SessionManager session)
-    {
+    public void setSession(SessionManager session) {
         this.session = session;
     }
 

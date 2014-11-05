@@ -18,7 +18,7 @@ public class RegisterActivity extends BaseActivity implements SessionInterface {
     public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
         RegisterFragment fragment = (RegisterFragment) fm.findFragmentById(R.id.register_fragment);
-        fragment.setSession(super.session);
-        fragment.setDbhelper(super.dbhelper);
+        fragment.setSession(session);
+        fragment.setDbhelper(dbhelper);
     }
 }

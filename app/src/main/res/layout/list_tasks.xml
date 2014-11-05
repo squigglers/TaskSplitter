@@ -14,7 +14,8 @@
         android:id="@+id/list_task_name"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:visibility="visible" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,8 +26,32 @@
         android:layout_below="@+id/list_task_name"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textColor="#B8B8B8"
+        android:textColor="#ff626262"
         android:visibility="gone" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Assigner here"
+        android:id="@+id/list_assigner"
+        android:textColor="#ff959595"
+        android:visibility="gone"
+        android:layout_below="@+id/list_task_description"
+        android:layout_toRightOf="@+id/list_assigned_by_text"
+        android:layout_toEndOf="@+id/list_assigned_by_text" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Assigned By: "
+        android:id="@+id/list_assigned_by_text"
+        android:textColor="#ff959595"
+        android:visibility="gone"
+        android:layout_below="@+id/list_task_description"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -36,6 +61,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:checked="false"
-        android:focusable="false"/>
+        android:focusable="false"
+        android:visibility="visible" />
 
 </RelativeLayout>

@@ -37,7 +37,7 @@ public class CreateGroupFragment extends Fragment {
 
     //"Create Group" button listener
     private void createGroupButtonClick(final View view) {
-        createGroupButton.setOnClickListener(new View.OnClickListener(){
+        createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 createGroupProcess(view); //do this when "Create Group" button is clicked
@@ -56,7 +56,7 @@ public class CreateGroupFragment extends Fragment {
 
         //if correctInput = true
         //insert group and generated access code to database and add user to group to database
-        if(correctInput) {
+        if (correctInput) {
             int groupId = createGroup(groupName);
             insertUserToGroup(groupId);
 
@@ -75,19 +75,19 @@ public class CreateGroupFragment extends Fragment {
         String error = "";
 
         //if any fields are empty
-        if(groupName.equals("")) {
+        if (groupName.equals("")) {
             correctInput = false;
             error = getString(R.string.empty_input_fields);
         }
 
         //if group name is not alphanumeric characters
-        else if(!groupName.matches(getString(R.string.groupname_regex))) {
+        else if (!groupName.matches(getString(R.string.groupname_regex))) {
             correctInput = false;
             error = getString(R.string.groupname_incorrect_input);
         }
 
         //show error toast if any incorrect input
-        if(!correctInput)
+        if (!correctInput)
             Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
 
         return correctInput;
@@ -114,13 +114,12 @@ public class CreateGroupFragment extends Fragment {
         int userId = session.getUserId();
 
         //add user to group in userGroup table
-        if(userId != -1)
+        if (userId != -1)
             dbhelper.addUserGroup(groupId, userId);
     }
 
     //create a unique random 10 length alphanumeric access code
-    private String createAccessCode()
-    {
+    private String createAccessCode() {
         String letters = "abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ23456789";
         int accessCodeLength = 10;
         String accessCode;
@@ -132,24 +131,22 @@ public class CreateGroupFragment extends Fragment {
                 int index = (int) (random.nextDouble() * letters.length());
                 accessCode += letters.substring(index, index + 1);
             }
-        }while (checkAccessCodeExists(accessCode)); //if access code is already taken
+        } while (checkAccessCodeExists(accessCode)); //if access code is already taken
 
         return accessCode;
     }
 
     //check if access code is already taken
-    private boolean checkAccessCodeExists(String accessCode)
-    {
+    private boolean checkAccessCodeExists(String accessCode) {
         DbHelper dbhelper = new DbHelper(getActivity());
         return dbhelper.checkAccessCodeExists(accessCode);
     }
 
-    public void setSession(SessionManager session)
-    {
+    public void setSession(SessionManager session) {
         this.session = session;
     }
 
     public void setDbhelper(DbHelper dbhelper) {
-       this.dbhelper = dbhelper;
+        this.dbhelper = dbhelper;
     }
 }

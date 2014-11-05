@@ -35,18 +35,18 @@ import java.util.List;
 
     private OnFragmentInteractionListener mListener;
 */
-    /**
-     * The fragment's ListView/GridView.
-     */
-    //private AbsListView mListView;
+/**
+ * The fragment's ListView/GridView.
+ */
+//private AbsListView mListView;
 
-    /**
-     * The Adapter which will be used to populate the ListView/GridView with
-     * Views.
-     */
-    //private ListAdapter mAdapter;
+/**
+ * The Adapter which will be used to populate the ListView/GridView with
+ * Views.
+ */
+//private ListAdapter mAdapter;
 
-    // TODO: Rename and change types of parameters
+// TODO: Rename and change types of parameters
    /* public static MyGroupsFragment newInstance(String group, String code) {
         MyGroupsFragment fragment = new MyGroupsFragment();
         Bundle args = new Bundle();
@@ -57,10 +57,10 @@ import java.util.List;
     }
     */
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
+/**
+ * Mandatory empty constructor for the fragment manager to instantiate the
+ * fragment (e.g. upon screen orientation changes).
+ */
    /* public MyGroupsFragment() {
     }
 
@@ -129,11 +129,11 @@ import java.util.List;
 
     */
 
-    /**
-     * The default content for this Fragment has a TextView that is shown when
-     * the list is empty. If you would like to change the text, call this method
-     * to supply the text it should use.
-     */
+/**
+ * The default content for this Fragment has a TextView that is shown when
+ * the list is empty. If you would like to change the text, call this method
+ * to supply the text it should use.
+ */
  /*   public void setEmptyText(CharSequence emptyText) {
         View emptyView = mListView.getEmptyView();
 
@@ -143,22 +143,22 @@ import java.util.List;
     }
 */
 
-    /**
-    * This interface must be implemented by activities that contain this
-    * fragment to allow an interaction in this fragment to be communicated
-    * to the activity and potentially other fragments contained in that
-    * activity.
-    * <p>
-    * See the Android Training lesson <a href=
-    * "http://developer.android.com/training/basics/fragments/communicating.html"
-    * >Communicating with Other Fragments</a> for more information.
-    */
+/**
+ * This interface must be implemented by activities that contain this
+ * fragment to allow an interaction in this fragment to be communicated
+ * to the activity and potentially other fragments contained in that
+ * activity.
+ * <p/>
+ * See the Android Training lesson <a href=
+ * "http://developer.android.com/training/basics/fragments/communicating.html"
+ * >Communicating with Other Fragments</a> for more information.
+ */
   /*  public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(String id);
     }
 */
-   // @Override
+// @Override
 /*   public void onListItemClick(ListView l, View v, int position, String id) {
         mCallback.onFragmentInteraction(id);
     }
@@ -172,47 +172,47 @@ import java.util.List;
     */
 
 public class MyGroupsFragment extends ListFragment {
-        private SessionManager session;
-        private DbHelper dbhelper;
-        private List<ListViewItem> mItems;
+    private SessionManager session;
+    private DbHelper dbhelper;
+    private List<ListViewItem> mItems;
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-            mItems = new ArrayList<ListViewItem>();
-            Resources resources = getResources();
+        mItems = new ArrayList<ListViewItem>();
+        Resources resources = getResources();
 
-            mItems.add(new ListViewItem("Example 1"));
-            mItems.add(new ListViewItem("Example 2"));
-            mItems.add(new ListViewItem("Example 3"));
+        mItems.add(new ListViewItem("Example 1"));
+        mItems.add(new ListViewItem("Example 2"));
+        mItems.add(new ListViewItem("Example 3"));
 
-            setListAdapter(new ListViewAdapter(getActivity().getApplicationContext(), mItems));
+        setListAdapter(new ListViewAdapter(getActivity().getApplicationContext(), mItems));
 
-        }
-
-        @Override
-        public void onViewCreated(View view, Bundle savedInstanceState) {
-            super.onViewCreated(view, savedInstanceState);
-
-            //getListView().setDivider(null);
-        }
-
-        @Override
-        public void onListItemClick(ListView l, View v, int position, long id) {
-            ListViewItem item = mItems.get(position);
-
-            Toast.makeText(getActivity(), item.getItemTitle(), Toast.LENGTH_LONG).show();;
-        }
-
-        public void setSession(SessionManager session)
-        {
-            this.session = session;
-        }
-
-        public void setDbhelper(DbHelper dbhelper) {
-            this.dbhelper = dbhelper;
-        }
     }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        //getListView().setDivider(null);
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id) {
+        ListViewItem item = mItems.get(position);
+
+        Toast.makeText(getActivity(), item.getItemTitle(), Toast.LENGTH_LONG).show();
+        ;
+    }
+
+    public void setSession(SessionManager session) {
+        this.session = session;
+    }
+
+    public void setDbhelper(DbHelper dbhelper) {
+        this.dbhelper = dbhelper;
+    }
+}
 
 

@@ -34,7 +34,7 @@ public class SignInFragment extends Fragment {
 
     //"Sign In" button listener
     private void signInButtonClick(final View view) {
-        signInButton.setOnClickListener(new View.OnClickListener(){
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signInProcess(view); //do this when "Sign In" button is clicked
@@ -54,12 +54,11 @@ public class SignInFragment extends Fragment {
 
         //validate user login
         int userId = -1;
-        if(correctInput)
+        if (correctInput)
             userId = validateUserLogin(username, password);
 
         //if user login is validated, login user
-        if(userId != -1)
-        {
+        if (userId != -1) {
             session.createLoginSession(userId);
 
             //toast to show user is logged in
@@ -82,7 +81,7 @@ public class SignInFragment extends Fragment {
         }
 
         //show error toast if any incorrect input
-        if(!correctInput)
+        if (!correctInput)
             Toast.makeText(getActivity(), error, Toast.LENGTH_LONG).show();
 
         return correctInput;
@@ -101,8 +100,7 @@ public class SignInFragment extends Fragment {
         return userId;
     }
 
-    public void setSession(SessionManager session)
-    {
+    public void setSession(SessionManager session) {
         this.session = session;
     }
 

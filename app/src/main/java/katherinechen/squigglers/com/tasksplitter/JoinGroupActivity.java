@@ -10,8 +10,6 @@ import android.widget.ListView;
 public class JoinGroupActivity extends LoggedInBaseActivity implements SessionInterface {
 
 
-
-
     SessionManager session;
     DbHelper dbhelper;
 

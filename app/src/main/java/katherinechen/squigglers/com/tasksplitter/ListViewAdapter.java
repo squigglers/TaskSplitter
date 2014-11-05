@@ -27,7 +27,7 @@ public class ListViewAdapter extends ArrayAdapter<ListViewItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder = null;
-        ListViewItem item = (ListViewItem)getItem(position);
+        ListViewItem item = (ListViewItem) getItem(position);
         View viewToUse = null;
 
         LayoutInflater mInflater = (LayoutInflater) context
@@ -35,10 +35,9 @@ public class ListViewAdapter extends ArrayAdapter<ListViewItem> {
 
         if (convertView == null) {
             // inflate the GridView item layout
-            if(useList) {
+            if (useList) {
                 viewToUse = mInflater.inflate(R.layout.view_list_item, null);
-            }
-            else {
+            } else {
                 viewToUse = mInflater.inflate(R.layout.view_grid_item, null);
             }
             // initialize the view holder

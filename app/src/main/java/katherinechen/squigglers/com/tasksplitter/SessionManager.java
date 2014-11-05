@@ -21,14 +21,14 @@ public class SessionManager {
     private static final Class LOGINACTIVITY = MainActivity.class;  //activity that user redirects to when logging in
 
     //constructor
-    public SessionManager(Context context){
+    public SessionManager(Context context) {
         this.context = context;
         pref = this.context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
 
     //sign user in and store userID and redirect user to LOGINACTIVITY
-    public void createLoginSession(int userID){
+    public void createLoginSession(int userID) {
 
         editor.putBoolean(IS_LOGGEDIN, true);
         editor.putInt(KEY_USERID, userID);
@@ -39,8 +39,8 @@ public class SessionManager {
 
     //call this in every logged in activity
     //check if user is signed in, otherwise redirect user to LOGOUTACTIVITY
-    public void checkLogin(){
-        if(!this.isLoggedIn()){
+    public void checkLogin() {
+        if (!this.isLoggedIn()) {
             redirectActivity(LOGOUTACTIVITY);
 
             //toast to show user that they are not logged in
@@ -49,7 +49,7 @@ public class SessionManager {
     }
 
     //log user out by clearing all session details and redirect user to LOGOUTACTIVITY
-    public void logoutUser(){
+    public void logoutUser() {
         editor.clear();
         editor.commit();
 
@@ -60,8 +60,7 @@ public class SessionManager {
     }
 
     //call this to redirect to new activity while clearing the backstack
-    private void redirectActivity(Class redirectClass)
-    {
+    private void redirectActivity(Class redirectClass) {
         //redirect user to Sign In Activity
         Intent i = new Intent(context, redirectClass);
 
@@ -73,12 +72,12 @@ public class SessionManager {
     }
 
     //return login state
-    public boolean isLoggedIn(){
+    public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGGEDIN, false);
     }
 
     //return userId
-    public int getUserId(){
+    public int getUserId() {
         int userID = pref.getInt(KEY_USERID, -1);
         return userID;
     }

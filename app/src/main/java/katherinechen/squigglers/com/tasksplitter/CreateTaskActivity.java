@@ -18,7 +18,7 @@ public class CreateTaskActivity extends LoggedInBaseActivity implements SessionI
     public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
         CreateTaskFragment fragment = (CreateTaskFragment) fm.findFragmentById(R.id.create_task_fragment);
-        fragment.setSession(super.session);
-        fragment.setDbhelper(super.dbhelper);
+        fragment.setSession(session);
+        fragment.setDbhelper(dbhelper);
     }
 }

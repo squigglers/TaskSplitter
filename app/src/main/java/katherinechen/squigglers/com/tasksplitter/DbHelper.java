@@ -129,6 +129,17 @@ public class DbHelper extends SQLiteOpenHelper {
         return userGroups;
     }
 
+    //updates whether a user has completed a task
+    public void updateTaskCompletion(int taskId, int completed) {
+        ContentValues values = new ContentValues();
+        values.put(Task.COMPLETED, completed);
+
+        String selection = Task._ID + "=?";
+        String[] selectionArgs = {String.valueOf(taskId)};
+
+        db.update(Task.TABLE_NAME, values, selection, selectionArgs);
+    }
+
     //checks to see if the username is already taken in the user table
     //return true if username already exists, else return false
     public boolean checkUsernameExists(String username) {

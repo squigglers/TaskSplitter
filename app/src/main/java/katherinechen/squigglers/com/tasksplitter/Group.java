@@ -4,8 +4,7 @@ public class Group {
     private int groupId;
     private String groupname;
 
-    public Group(int groupId, String groupname)
-    {
+    public Group(int groupId, String groupname) {
         this.groupId = groupId;
         this.groupname = groupname;
     }

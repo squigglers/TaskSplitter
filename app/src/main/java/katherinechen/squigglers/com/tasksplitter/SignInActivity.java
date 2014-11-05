@@ -18,7 +18,7 @@ public class SignInActivity extends BaseActivity implements SessionInterface {
     public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
         SignInFragment fragment = (SignInFragment) fm.findFragmentById(R.id.sign_in_fragment);
-        fragment.setSession(super.session);
-        fragment.setDbhelper(super.dbhelper);
+        fragment.setSession(session);
+        fragment.setDbhelper(dbhelper);
     }
 }
