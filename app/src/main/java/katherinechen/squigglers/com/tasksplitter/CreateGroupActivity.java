@@ -1,10 +1,24 @@
 package katherinechen.squigglers.com.tasksplitter;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class CreateGroupActivity extends LoggedInBaseActivity implements SessionInterface {
@@ -30,16 +44,20 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
         dbhelper = new DbHelper(this);
 
         setFragmentInfo();
-    }
 
-/*
+
+
         if(session.isLoggedIn()) {
             mTitle = mDrawerTitle = getTitle();
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
             ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
             mGroupTitles = new String[groups.size()];
+            //System.out.println("here");
+            Log.e("myApp", "here");
             for(int x=0; x<groups.size(); x++) {
+                System.out.println("x : " + x + "  group : " + groups.get(x).getGroupname());
+                Log.e("myApp", "x: " + x + "  group : " + groups.get(x).getGroupname());
                 mGroupTitles[x] = groups.get(x).getGroupname();
             }
 
@@ -206,7 +224,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public class GroupFragment extends Fragment {
+   public class GroupFragment extends Fragment {
         public static final String ARG_GROUP_NUMBER = "group_number";
 
         SessionManager session;
@@ -249,7 +267,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
             return rootView;
         }
     }
-*/
+
 
     @Override
     public void setFragmentInfo() {
