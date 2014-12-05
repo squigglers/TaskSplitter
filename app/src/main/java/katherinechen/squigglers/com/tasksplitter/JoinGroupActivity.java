@@ -1,10 +1,23 @@
 package katherinechen.squigglers.com.tasksplitter;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class JoinGroupActivity extends LoggedInBaseActivity implements SessionInterface {
@@ -31,9 +44,8 @@ public class JoinGroupActivity extends LoggedInBaseActivity implements SessionIn
 
         session = new SessionManager(getApplicationContext());
         dbhelper = new DbHelper(this);
-    }
 
-/*
+
 
         if(session.isLoggedIn()) {
             mTitle = mDrawerTitle = getTitle();
@@ -234,7 +246,7 @@ public class JoinGroupActivity extends LoggedInBaseActivity implements SessionIn
             return rootView;
         }
     }
-*/
+
 
     @Override
     public void setFragmentInfo() {

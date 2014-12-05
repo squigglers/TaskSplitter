@@ -41,7 +41,7 @@ public class MainActivity extends LoggedInBaseActivity {
 
         session = new SessionManager(getApplicationContext());
         dbhelper = new DbHelper(this);
-  //  }
+
 
 
         if (session.isLoggedIn()) {

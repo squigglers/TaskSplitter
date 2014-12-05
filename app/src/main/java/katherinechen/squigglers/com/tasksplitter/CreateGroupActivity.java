@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,11 +52,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
 
             ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
             mGroupTitles = new String[groups.size()];
-            //System.out.println("here");
-            Log.e("myApp", "here");
             for(int x=0; x<groups.size(); x++) {
-                System.out.println("x : " + x + "  group : " + groups.get(x).getGroupname());
-                Log.e("myApp", "x: " + x + "  group : " + groups.get(x).getGroupname());
                 mGroupTitles[x] = groups.get(x).getGroupname();
             }
 
@@ -224,7 +219,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-   public class GroupFragment extends Fragment {
+    public class GroupFragment extends Fragment {
         public static final String ARG_GROUP_NUMBER = "group_number";
 
         SessionManager session;
