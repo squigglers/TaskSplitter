@@ -27,8 +27,8 @@ public class UserTasksFragment extends ListFragment {
         super.onResume();
 
         //set userId and groupId for which we want to get tasks
-        userId = 1;
-        groupId = 1;
+        userId = session.getUserId();
+        //groupId = 1;
 
         //get cursor filled with taskId, task name, task description, assignerId
         cursor = dbhelper.getUserTasksInGroup(userId, groupId);

@@ -91,8 +91,10 @@ public class DbHelper extends SQLiteOpenHelper {
         //where Task.userId = userId and Task.groupId = groupId
         //order by completed
         final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED};
-        final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?";
-        final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId)};
+        //final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?";
+        final String selection = Task.USER_ID + "=?";
+        //final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId)};
+        final String[] selectionArgs = {String.valueOf(userId)};
         final String sortOrder = Task.COMPLETED;
 /*
         return new CursorLoader(activity, null, projection, selection, selectionArgs, null) {
@@ -105,6 +107,10 @@ public class DbHelper extends SQLiteOpenHelper {
 */
         Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 
+        String query = "SELECT " + Task._ID + ", " + Task.TASK_NAME + ", " + Task.DESCRIPTION + ", " +
+                Task.ASSIGNER_ID + ", " + Task.COMPLETED + " FROM " + Task.TABLE_NAME + " WHERE " +
+                Task.USER_ID + " = " + userId; //+ " AND " + Task.GROUP_ID + " = " + groupId;
+        //Cursor c = db.rawQuery(query, null);
         return c;
     }
 
