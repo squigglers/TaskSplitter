@@ -87,7 +87,7 @@ public class JoinGroupActivity extends LoggedInBaseActivity implements SessionIn
             mDrawerLayout.setDrawerListener(mDrawerToggle);
 
             if(savedInstanceState == null) {
-                selectItem(0);
+                //selectItem(0);
             }
         }
     }

@@ -180,17 +180,17 @@ public class MyGroupsFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mItems = new ArrayList<ListViewItem>();
+        //mItems = new ArrayList<ListViewItem>();
         Resources resources = getResources();
 
-        mItems.add(new ListViewItem("Example 1"));
-        mItems.add(new ListViewItem("Example 2"));
-        mItems.add(new ListViewItem("Example 3"));
+       // mItems.add(new ListViewItem("Example 1"));
+        //mItems.add(new ListViewItem("Example 2"));
+       // mItems.add(new ListViewItem("Example 3"));
 
-        setListAdapter(new ListViewAdapter(getActivity().getApplicationContext(), mItems));
+        //setListAdapter(new ListViewAdapter(getActivity().getApplicationContext(), mItems));
 
     }
-
+/*
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -205,7 +205,7 @@ public class MyGroupsFragment extends ListFragment {
         Toast.makeText(getActivity(), item.getItemTitle(), Toast.LENGTH_LONG).show();
         ;
     }
-
+*/
     public void setSession(SessionManager session) {
         this.session = session;
     }

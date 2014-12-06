@@ -45,6 +45,9 @@ public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInt
         //        beginTransaction().add(android.R.id.content,list).commit();        session = super.session;
         setFragmentInfo();
 
+        session = new SessionManager(getApplicationContext());
+        dbhelper = new DbHelper(this);
+
         if(session.isLoggedIn()) {
             mTitle = mDrawerTitle = getTitle();
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -85,7 +88,7 @@ public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInt
             mDrawerLayout.setDrawerListener(mDrawerToggle);
 
             if(savedInstanceState == null) {
-                selectItem(0);
+                //selectItem(0);
             }
         }
     }
@@ -248,7 +251,10 @@ public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInt
     @Override
     public void setFragmentInfo() {
         FragmentManager fm = getFragmentManager();
-        MyGroupsFragment fragment = (MyGroupsFragment) fm.findFragmentById(R.id.my_groups_fragment);
+        //MyGroupsFragment fragment = (MyGroupsFragment) fm.findFragmentById(R.id.my_groups_fragment);
+
+        MyGroupsFragment fragment = new MyGroupsFragment();
+        fm.beginTransaction().replace(R.id.content_frame, fragment).commit();
         /*MyGroupsFragment fragment = new MyGroupsFragment();
         FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.add(android.R.id.content, fragment);
