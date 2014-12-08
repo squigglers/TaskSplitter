@@ -64,6 +64,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
 
 
             mDrawerList.setAdapter(
+
                     new ArrayAdapter<String>(
                             this,
                             R.layout.drawer_list_item,
@@ -225,6 +226,17 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
         SessionManager session;
         DbHelper dbhelper;
 
+        private DrawerLayout mDrawerLayout;
+        private ListView mDrawerList;
+        private ActionBarDrawerToggle mDrawerToggle;
+
+        private CharSequence mDrawerTitle;
+        private CharSequence mTitle;
+        private String[] mUserTasks;
+        private int[] mUserIds;
+
+
+
         public GroupFragment() {
             // Empty constructor required for fragment subclasses
         }
@@ -234,6 +246,58 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
                                  Bundle savedInstanceState) {
             session = new SessionManager(getApplicationContext());
             dbhelper = new DbHelper(getApplicationContext());
+
+
+
+            if(session.isLoggedIn()) {
+                mTitle = mDrawerTitle = getTitle();
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+                ArrayList<Task> tasks = dbhelper.getTasksforUserInGroup(session.getUserId());
+                mUserTasks = new String[tasks.size()];
+                for(int x=0; x<tasks.size(); x++) {
+                    mUserTasks[x] = tasks.get(x).getGroupname();
+                }
+
+                mUserIds = new int[taks.size()];
+                for(int x=0; x<tasks.size(); x++) {
+                    mUserIds[x] = tasks.get(x).getGroupId();
+                }
+
+                mDrawerList = (ListView) findViewById(R.id.right_drawer);
+
+
+                mDrawerList.setAdapter(
+                        new ArrayAdapter<String>(
+                                getApplicationContext(),
+                                R.layout.drawer_list_item,
+                                mUserTasks));
+
+                mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+                getActionBar().setDisplayHomeAsUpEnabled(true);
+                getActionBar().setHomeButtonEnabled(true);
+
+                mDrawerToggle = new ActionBarDrawerToggle(
+                        getActivity(), mDrawerLayout, R.drawable.ic_drawer,
+                        R.string.drawer_open, R.string.drawer_close
+                ) {
+                    public void onDrawerClosed(View view) {
+                        getActionBar().setTitle(mTitle);
+                        invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                    }
+
+                    public void onDrawerOpened(View drawerView) {
+                        getActionBar().setTitle(mDrawerTitle);
+                        invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                    }
+                };
+                mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+                if(savedInstanceState == null) {
+                    //selectItem(0);
+                }
+            }
            // View rootView = inflater.inflate(R.layout.fragment_group, container);
             View rootView = inflater.inflate(R.layout.fragment_group, container, false);
             int i = getArguments().getInt(ARG_GROUP_NUMBER);
