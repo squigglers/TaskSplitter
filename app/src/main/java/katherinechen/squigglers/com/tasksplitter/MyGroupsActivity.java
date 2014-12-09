@@ -1,5 +1,6 @@
 package katherinechen.squigglers.com.tasksplitter;
 
+import android.database.Cursor;
 import android.util.Log;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -34,12 +35,15 @@ public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInt
     private CharSequence mTitle;
     private String[] mGroupTitles;
 
+    public int chosenGroupId = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_groups);
 
-        MyGroupsFragment list = new MyGroupsFragment();
+        //MyGroupsFragment list = new MyGroupsFragment();
 
         //getActivity().getSupportFragmentManager().
         //        beginTransaction().add(android.R.id.content,list).commit();        session = super.session;
@@ -182,6 +186,40 @@ public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInt
         }
     }
 
+    private class RightDrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view,
+                                int position, long id) {
+            sendUser(position);
+        }
+    }
+
+    private void sendUser(int position) {
+        Cursor c = dbhelper.getUsersInGroup(chosenGroupId);
+
+        ArrayList<User> users = new ArrayList<User>(c.getCount());
+        if (c.moveToFirst()) {
+            do {
+                User user = new User(c.getInt(0), c.getString(1));
+                users.add(user);
+            } while (c.moveToNext());
+        }
+
+        int [] mUserIds = new int[users.size()];
+        for(int x=0; x<users.size(); x++) {
+            mUserIds[x] = users.get(x).getUserId();
+        }
+
+        session.setViewOther(true);
+        session.setUserToViewId(mUserIds[position]);
+        Log.e("userId", "" + mUserIds[position]);
+
+        Intent userTasksActivity = new Intent(this, UserTasksActivity.class);
+        //userTasksActivity.putExtra("userId", mUserIds[position]);
+        startActivity(userTasksActivity);
+
+    }
+
     private void selectItem(int position) {
         Fragment fragment = new GroupFragment();
         Bundle args = new Bundle();
@@ -215,11 +253,22 @@ public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInt
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    public  class GroupFragment extends Fragment {
+    public class GroupFragment extends Fragment {
         public static final String ARG_GROUP_NUMBER = "group_number";
 
         SessionManager session;
         DbHelper dbhelper;
+
+        private DrawerLayout mDrawerLayout;
+        private ListView mDrawerList;
+        private ActionBarDrawerToggle mDrawerToggle;
+
+        private CharSequence mDrawerTitle;
+        private CharSequence mTitle;
+        private String[] mUserNames;
+        private int[] mUserIds;
+
+
 
         public GroupFragment() {
             // Empty constructor required for fragment subclasses
@@ -230,6 +279,8 @@ public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInt
                                  Bundle savedInstanceState) {
             session = new SessionManager(getApplicationContext());
             dbhelper = new DbHelper(getApplicationContext());
+
+            // View rootView = inflater.inflate(R.layout.fragment_group, container);
             View rootView = inflater.inflate(R.layout.fragment_group, container, false);
             int i = getArguments().getInt(ARG_GROUP_NUMBER);
             ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
@@ -237,16 +288,98 @@ public class MyGroupsActivity extends LoggedInBaseActivity implements SessionInt
             for(int x=0; x<groups.size(); x++) {
                 mGroupTitles[x] = groups.get(x).getGroupname();
             }
-            String group = mGroupTitles[i];
+
+            int[] mGroupIds = new int[groups.size()];
+            for(int x=0; x<groups.size(); x++) {
+                mGroupIds[x] = groups.get(x).getGroupId();
+            }
+
+            String mAccessCodes [] = new String[groups.size()];
+            for(int x=0; x<groups.size(); x++) {
+                mAccessCodes[x] = groups.get(x).getAccessCode();
+            }
+
+            String accessCode = mAccessCodes[i];
+            Log.e("myAccess", accessCode);
+
+            String groupName = mGroupTitles[i];
             TextView groupNameTextView = (TextView) rootView.findViewById(R.id.groupName);
-            groupNameTextView.setText(group);
+            groupNameTextView.setText(accessCode);
+
+            int groupId = mGroupIds[i];
+            chosenGroupId = groupId;
+
+            TextView groupAccessCodeTextView = (TextView) rootView.findViewById(R.id.groupAccessCode);
+            groupAccessCodeTextView.setText(accessCode);
             // int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
             //        "drawable", getActivity().getPackageName());
             // ((TextView) rootView.findViewById(R.id.image)).setImageResource(imageId);
-            getActivity().setTitle(group);
+            getActivity().setTitle(groupName);
+
+            if(session.isLoggedIn()) {
+                mTitle = mDrawerTitle = getTitle();
+                mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+                //ArrayList<User> users
+                Cursor c = dbhelper.getUsersInGroup(groupId);
+
+                ArrayList<User> users = new ArrayList<User>(c.getCount());
+                if (c.moveToFirst()) {
+                    do {
+                        User user = new User(c.getInt(0), c.getString(1));
+                        users.add(user);
+                    } while (c.moveToNext());
+                }
+
+                mUserNames = new String[users.size()];
+                for(int x=0; x<users.size(); x++) {
+                    mUserNames[x] = users.get(x).getUserName();
+                }
+
+                mUserIds = new int[users.size()];
+                for(int x=0; x<users.size(); x++) {
+                    mUserIds[x] = users.get(x).getUserId();
+                }
+
+                mDrawerList = (ListView) findViewById(R.id.right_drawer);
+
+
+                mDrawerList.setAdapter(
+                        new ArrayAdapter<String>(
+                                getApplicationContext(),
+                                R.layout.drawer_list_item,
+                                mUserNames));
+
+                mDrawerList.setOnItemClickListener(new RightDrawerItemClickListener());
+
+                getActionBar().setDisplayHomeAsUpEnabled(true);
+                getActionBar().setHomeButtonEnabled(true);
+
+                mDrawerToggle = new ActionBarDrawerToggle(
+                        getActivity(), mDrawerLayout, R.drawable.ic_drawer,
+                        R.string.drawer_open, R.string.drawer_close
+                ) {
+                    public void onDrawerClosed(View view) {
+                        getActionBar().setTitle(mTitle);
+                        invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                    }
+
+                    public void onDrawerOpened(View drawerView) {
+                        getActionBar().setTitle(mDrawerTitle);
+                        invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+                    }
+                };
+                mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+                if(savedInstanceState == null) {
+                    //selectItem(0);
+                }
+            }
+
             return rootView;
         }
     }
+
 
     @Override
     public void setFragmentInfo() {

@@ -93,8 +93,10 @@ public class BaseActivity extends Activity {
             onClickMenuMyGroups(item);
         else if (id == R.id.menu_create_task)
             onClickMenuCreateTask(item);
-        else if (id == R.id.menu_view_user_tasks)
+        else if (id == R.id.menu_view_user_tasks) {
             onClickMenuViewUserTasks(item);
+            session.setViewOther(false);
+        }
         else
             handled = super.onOptionsItemSelected(item);
 

@@ -40,9 +40,8 @@ public class UserTasksFragment extends ListFragment {
 
         //set userId and groupId for which we want to get tasks
         if(session.getViewOther() == true) {
-            Log.e("here", "here");
             userId = session.getUserToViewId();
-            session.setViewOther(false);
+            //session.setViewOther(false);
         }
         else {
             userId = session.getUserId();
