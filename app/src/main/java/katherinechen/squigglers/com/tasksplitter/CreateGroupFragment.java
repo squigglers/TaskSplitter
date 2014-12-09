@@ -40,6 +40,7 @@ public class CreateGroupFragment extends Fragment {
         createGroupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("inCreateGroup", "inCreateGroup");
                 createGroupProcess(view); //do this when "Create Group" button is clicked
             }
         });

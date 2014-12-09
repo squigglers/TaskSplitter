@@ -4,9 +4,11 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -232,7 +234,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
 
         private CharSequence mDrawerTitle;
         private CharSequence mTitle;
-        private String[] mUserTasks;
+        private String[] mUserNames;
         private int[] mUserIds;
 
 
@@ -247,21 +249,63 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
             session = new SessionManager(getApplicationContext());
             dbhelper = new DbHelper(getApplicationContext());
 
+            // View rootView = inflater.inflate(R.layout.fragment_group, container);
+            View rootView = inflater.inflate(R.layout.fragment_group, container, false);
+            int i = getArguments().getInt(ARG_GROUP_NUMBER);
+            ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
+            String mGroupTitles []= new String[groups.size()];
+            for(int x=0; x<groups.size(); x++) {
+                mGroupTitles[x] = groups.get(x).getGroupname();
+            }
 
+            int[] mGroupIds = new int[groups.size()];
+            for(int x=0; x<groups.size(); x++) {
+                mGroupIds[x] = groups.get(x).getGroupId();
+            }
+
+            String mAccessCodes [] = new String[groups.size()];
+            for(int x=0; x<groups.size(); x++) {
+                mAccessCodes[x] = groups.get(x).getAccessCode();
+            }
+
+            String accessCode = mAccessCodes[i];
+            Log.e("myAccess", accessCode);
+
+            String groupName = mGroupTitles[i];
+            TextView groupNameTextView = (TextView) rootView.findViewById(R.id.groupName);
+            groupNameTextView.setText(accessCode);
+
+            int groupId = mGroupIds[i];
+            TextView groupAccessCodeTextView = (TextView) rootView.findViewById(R.id.groupAccessCode);
+            groupAccessCodeTextView.setText(accessCode);
+            // int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
+            //        "drawable", getActivity().getPackageName());
+            // ((TextView) rootView.findViewById(R.id.image)).setImageResource(imageId);
+            getActivity().setTitle(groupName);
 
             if(session.isLoggedIn()) {
                 mTitle = mDrawerTitle = getTitle();
                 mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-                ArrayList<Task> tasks = dbhelper.getTasksforUserInGroup(session.getUserId());
-                mUserTasks = new String[tasks.size()];
-                for(int x=0; x<tasks.size(); x++) {
-                    mUserTasks[x] = tasks.get(x).getGroupname();
+                //ArrayList<User> users
+                Cursor c = dbhelper.getUsersInGroup(groupId);
+
+                ArrayList<User> users = new ArrayList<User>(c.getCount());
+                if (c.moveToFirst()) {
+                    do {
+                        User user = new User(c.getInt(0), c.getString(1));
+                        users.add(user);
+                    } while (c.moveToNext());
                 }
 
-                mUserIds = new int[taks.size()];
-                for(int x=0; x<tasks.size(); x++) {
-                    mUserIds[x] = tasks.get(x).getGroupId();
+                mUserNames = new String[users.size()];
+                for(int x=0; x<users.size(); x++) {
+                    mUserNames[x] = users.get(x).getUserName();
+                }
+
+                mUserIds = new int[users.size()];
+                for(int x=0; x<users.size(); x++) {
+                    mUserIds[x] = users.get(x).getUserId();
                 }
 
                 mDrawerList = (ListView) findViewById(R.id.right_drawer);
@@ -271,7 +315,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
                         new ArrayAdapter<String>(
                                 getApplicationContext(),
                                 R.layout.drawer_list_item,
-                                mUserTasks));
+                                mUserNames));
 
                 mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
@@ -298,31 +342,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
                     //selectItem(0);
                 }
             }
-           // View rootView = inflater.inflate(R.layout.fragment_group, container);
-            View rootView = inflater.inflate(R.layout.fragment_group, container, false);
-            int i = getArguments().getInt(ARG_GROUP_NUMBER);
-            ArrayList<Group> groups = dbhelper.getUserGroups(session.getUserId());
-            String mGroupTitles []= new String[groups.size()];
-            for(int x=0; x<groups.size(); x++) {
-                mGroupTitles[x] = groups.get(x).getGroupname();
-            }
 
-            int[] mGroupIds = new int[groups.size()];
-            for(int x=0; x<groups.size(); x++) {
-                mGroupIds[x] = groups.get(x).getGroupId();
-            }
-
-            String groupName = mGroupTitles[i];
-            TextView groupNameTextView = (TextView) rootView.findViewById(R.id.groupName);
-            groupNameTextView.setText(groupName);
-
-            int groupId = mGroupIds[i];
-            TextView groupAccessCodeTextView = (TextView) rootView.findViewById(R.id.groupAccessCode);
-            groupAccessCodeTextView.setText(groupId+"");
-            // int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
-            //        "drawable", getActivity().getPackageName());
-            // ((TextView) rootView.findViewById(R.id.image)).setImageResource(imageId);
-            getActivity().setTitle(groupName);
             return rootView;
         }
     }

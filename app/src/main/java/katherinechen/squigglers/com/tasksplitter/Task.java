@@ -1,4 +1,4 @@
-package katherinechen.squigglers.com.tasksplitter.dummy;
+package katherinechen.squigglers.com.tasksplitter;
 
 /**
  * Created by lindsaycampbell on 12/8/14.

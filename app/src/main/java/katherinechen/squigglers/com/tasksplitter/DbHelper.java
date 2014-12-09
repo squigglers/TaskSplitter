@@ -118,7 +118,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public ArrayList<Group> getUserGroups(int userId) {
 
         //select groupId from Group, UserGroup where Group.Id = UserGroup.groupId and UserGroup.userId = userId
-        String query = "SELECT " + Groupy._ID + ", " + Groupy.NAME +
+        String query = "SELECT " + Groupy._ID + ", " + Groupy.NAME + ", " + Groupy.ACCESSCODE +
                 " FROM " + Groupy.TABLE_NAME + ", " + UserGroup.TABLE_NAME
                 + " WHERE " + Groupy._ID + " = " + UserGroup.GROUP_ID + " AND " + UserGroup.USER_ID + " = " + userId;
         Cursor c = db.rawQuery(query, null);
@@ -127,7 +127,7 @@ public class DbHelper extends SQLiteOpenHelper {
         ArrayList<Group> userGroups = new ArrayList<Group>(c.getCount());
         if (c.moveToFirst()) {
             do {
-                Group group = new Group(c.getInt(0), c.getString(1));
+                Group group = new Group(c.getInt(0), c.getString(1), c.getString(2));
                 userGroups.add(group);
             } while (c.moveToNext());
         }
@@ -182,13 +182,13 @@ public class DbHelper extends SQLiteOpenHelper {
     //return groupid if validated, else return -1
     public int validateGroupLogin(String groupName, String accessCode) {
         //get hashed accessCode
-        String hashedAccessCode = hashPassword(accessCode);
+        //String hashedAccessCode = hashPassword(accessCode);
 
         int groupId = -1;
 
         String[] projection = {Groupy._ID, Groupy.NAME, Groupy.ACCESSCODE};
         String selection = Groupy.NAME + "=?" + " AND " + Groupy.ACCESSCODE + "=?";
-        String[] selectionArgs = {groupName, hashedAccessCode};
+        String[] selectionArgs = {groupName, accessCode};//hashedAccessCode};
         Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         if (c.getCount() > 0) {
@@ -278,7 +278,8 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(Groupy.NAME, name);
-        values.put(Groupy.ACCESSCODE, hashedAccessCode);
+        //values.put(Groupy.ACCESSCODE, hashedAccessCode);
+        values.put(Groupy.ACCESSCODE, accessCode);
 
         int groupID = (int) db.insert(Groupy.TABLE_NAME, null, values);
 
