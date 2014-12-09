@@ -36,6 +36,8 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
     private String[] mGroupTitles;
     private int[] mGroupIds;
 
+    public int chosenGroupId = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,6 +191,40 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
         }
     }
 
+    private class RightDrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view,
+                                int position, long id) {
+            sendUser(position);
+        }
+    }
+
+    private void sendUser(int position) {
+        Cursor c = dbhelper.getUsersInGroup(chosenGroupId);
+
+        ArrayList<User> users = new ArrayList<User>(c.getCount());
+        if (c.moveToFirst()) {
+            do {
+                User user = new User(c.getInt(0), c.getString(1));
+                users.add(user);
+            } while (c.moveToNext());
+        }
+
+        int [] mUserIds = new int[users.size()];
+        for(int x=0; x<users.size(); x++) {
+            mUserIds[x] = users.get(x).getUserId();
+        }
+
+        session.setViewOther(true);
+        session.setUserToViewId(mUserIds[position]);
+        Log.e("userId", "" + mUserIds[position]);
+
+        Intent userTasksActivity = new Intent(this, UserTasksActivity.class);
+        //userTasksActivity.putExtra("userId", mUserIds[position]);
+        startActivity(userTasksActivity);
+
+    }
+
     private void selectItem(int position) {
         Fragment fragment = new GroupFragment();
         Bundle args = new Bundle();
@@ -276,6 +312,8 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
             groupNameTextView.setText(accessCode);
 
             int groupId = mGroupIds[i];
+            chosenGroupId = groupId;
+
             TextView groupAccessCodeTextView = (TextView) rootView.findViewById(R.id.groupAccessCode);
             groupAccessCodeTextView.setText(accessCode);
             // int imageId = getResources().getIdentifier(planet.toLowerCase(Locale.getDefault()),
@@ -317,7 +355,7 @@ public class CreateGroupActivity extends LoggedInBaseActivity implements Session
                                 R.layout.drawer_list_item,
                                 mUserNames));
 
-                mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+                mDrawerList.setOnItemClickListener(new RightDrawerItemClickListener());
 
                 getActionBar().setDisplayHomeAsUpEnabled(true);
                 getActionBar().setHomeButtonEnabled(true);
