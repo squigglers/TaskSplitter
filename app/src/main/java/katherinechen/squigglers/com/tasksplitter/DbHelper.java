@@ -83,6 +83,36 @@ public class DbHelper extends SQLiteOpenHelper {
         return c;
     }
 
+    //gets the access code based on id
+    public String getGroupAccessCode(int groupId) {
+        //select accesscode from Groupy where Groupy.groupId = groupId
+        final String[] projection = {Groupy.ACCESSCODE};
+        final String selection = Groupy._ID + "=?";
+        final String[] selectionArgs = {String.valueOf(groupId)};
+
+        Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+
+        c.moveToFirst();
+        String accesscode = c.getString(c.getColumnIndexOrThrow(DbHelper.Groupy.ACCESSCODE));
+
+        return accesscode;
+    }
+
+    //gets the group name based on id
+    public String getGroupName(int groupId) {
+        //select groupname from Groupy where Groupy.groupId = groupId
+        final String[] projection = {Groupy.NAME};
+        final String selection = Groupy._ID + "=?";
+        final String[] selectionArgs = {String.valueOf(groupId)};
+
+        Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+
+        c.moveToFirst();
+        String groupName = c.getString(c.getColumnIndexOrThrow(DbHelper.Groupy.NAME));
+
+        return groupName;
+    }
+
     //gets all the tasks based on user and group and returns it in a cursor
     public Cursor getUserTasksInGroup(int userId, int groupId) {
 
@@ -93,15 +123,7 @@ public class DbHelper extends SQLiteOpenHelper {
         final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?";
         final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId)};
         final String sortOrder = Task.COMPLETED;
-/*
-        return new CursorLoader(activity, null, projection, selection, selectionArgs, null) {
-            @Override
-            public Cursor loadInBackground() {
-                SQLiteDatabase db = getReadableDatabase();
-                return db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
-            }
-        };
-*/
+
         Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 
         return c;
@@ -154,13 +176,13 @@ public class DbHelper extends SQLiteOpenHelper {
     //return groupid if validated, else return -1
     public int validateGroupLogin(String groupName, String accessCode) {
         //get hashed accessCode
-        String hashedAccessCode = hashPassword(accessCode);
+        //String hashedAccessCode = hashPassword(accessCode);
 
         int groupId = -1;
 
         String[] projection = {Groupy._ID, Groupy.NAME, Groupy.ACCESSCODE};
         String selection = Groupy.NAME + "=?" + " AND " + Groupy.ACCESSCODE + "=?";
-        String[] selectionArgs = {groupName, hashedAccessCode};
+        String[] selectionArgs = {groupName, accessCode};
         Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         if (c.getCount() > 0) {
@@ -246,11 +268,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     public int addGroup(String name, String accessCode) {
         //hash accessCode
-        String hashedAccessCode = hashPassword(accessCode);
+        //String hashedAccessCode = hashPassword(accessCode);
 
         ContentValues values = new ContentValues();
         values.put(Groupy.NAME, name);
-        values.put(Groupy.ACCESSCODE, hashedAccessCode);
+        values.put(Groupy.ACCESSCODE, accessCode);
 
         int groupID = (int) db.insert(Groupy.TABLE_NAME, null, values);
 

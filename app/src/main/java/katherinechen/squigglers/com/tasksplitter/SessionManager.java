@@ -12,6 +12,9 @@ public class SessionManager {
     Editor editor;
     Context context;
 
+    public static final String USERID = "USERID";
+    public static final String GROUPID = "GROUPID";
+
     int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "TaskSplitterPref";
     private static final String IS_LOGGEDIN = "IsLoggedIn";

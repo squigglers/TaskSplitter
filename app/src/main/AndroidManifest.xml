@@ -33,10 +33,6 @@
             android:label="@string/register" >
         </activity>
         <activity
-            android:name=".MyGroupsActivity"
-            android:label="@string/my_groups" >
-        </activity>
-        <activity
             android:name=".CreateTaskActivity"
             android:label="@string/create_task" >
         </activity>
@@ -55,6 +51,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="katherinechen.squigglers.com.tasksplitter.LoggedInBaseActivity" />
+        </activity>
+        <activity
+            android:name=".GroupPageActivity"
+            android:label="@string/title_activity_group_page">
         </activity>
     </application>
 

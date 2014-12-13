@@ -64,7 +64,8 @@ public class JoinGroupFragment extends Fragment {
             //toast to show group is joined
             Toast.makeText(getActivity(), getString(R.string.group_joined_toast), Toast.LENGTH_LONG).show();
 
-            //SHOULD GO TO GROUP PAGE AFTER THIS
+            //go to group page after this
+            PageTransitions.goToGroupPage(groupId, groupName, getActivity(), session);
         }
     }
 

@@ -66,5 +66,6 @@
     <string name="title_activity_user_tasks">UserTasksActivity</string>
     <string name="view_user_tasks">view user tasks</string>
     <string name="title_activity_right_drawer_base">RightDrawerBaseActivity</string>
+    <string name="title_activity_group_page">GroupPageActivity</string>
 
 </resources>

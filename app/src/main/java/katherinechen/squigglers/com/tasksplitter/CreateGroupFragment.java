@@ -63,8 +63,8 @@ public class CreateGroupFragment extends Fragment {
             //toast to show group is created
             Toast.makeText(getActivity(), getString(R.string.group_created_toast), Toast.LENGTH_LONG).show();
 
-            //SHOULD GO TO GROUP PAGE AFTER THIS WITH GROUP NAME AND ACCESS CODE
-
+            //go to group page
+            PageTransitions.goToGroupPage(groupId, groupName, getActivity(), session);
         }
     }
 

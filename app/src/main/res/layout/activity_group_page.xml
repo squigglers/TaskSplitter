@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- The main content view -->
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -13,14 +12,23 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        tools:context="katherinechen.squigglers.com.tasksplitter.UserTasksActivity">
+        tools:context="katherinechen.squigglers.com.tasksplitter.GroupPageActivity">
 
         <fragment
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="katherinechen.squigglers.com.tasksplitter.UserTasksFragment"
-            android:id="@+id/user_tasks_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="katherinechen.squigglers.com.tasksplitter.GroupPageFragment"
+            android:id="@+id/group_page_fragment"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
+        <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:name="katherinechen.squigglers.com.tasksplitter.UserTasksFragment"
+            android:id="@+id/my_tasks_fragment"
+            android:layout_below="@+id/group_page_fragment"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
 

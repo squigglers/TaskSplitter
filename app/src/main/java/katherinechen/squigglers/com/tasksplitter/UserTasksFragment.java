@@ -26,10 +26,6 @@ public class UserTasksFragment extends ListFragment {
     public void onResume() {
         super.onResume();
 
-        //set userId and groupId for which we want to get tasks
-        userId = 1;
-        groupId = 1;
-
         //get cursor filled with taskId, task name, task description, assignerId
         cursor = dbhelper.getUserTasksInGroup(userId, groupId);
 
@@ -80,6 +76,12 @@ public class UserTasksFragment extends ListFragment {
         this.dbhelper = dbhelper;
     }
 
+    //set userId and groupId for which we want to get tasks
+    public void setIDs(int groupId, int userId) {
+        this.groupId = groupId;
+        this.userId = userId;
+    }
+
     //custom cursor adapter for the tasks
     private class TasksCursorAdapter extends SimpleCursorAdapter {
 
@@ -120,20 +122,20 @@ public class UserTasksFragment extends ListFragment {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                    int completed;  //is 1 when checkmarked (completed), 0 when not checkmarked (not completed)
-                    //strike line through task when checkmarked
-                    if (isChecked) {
-                        strikeTask(textviews);
-                        completed = 1;
-                    } else {
-                        noStrikeTask(textviews);
-                        completed = 0;
-                    }
+                int completed;  //is 1 when checkmarked (completed), 0 when not checkmarked (not completed)
+                //strike line through task when checkmarked
+                if (isChecked) {
+                    strikeTask(textviews);
+                    completed = 1;
+                } else {
+                    noStrikeTask(textviews);
+                    completed = 0;
+                }
 
-                    //update database with completed task
-                    cursor.moveToPosition(pos);
-                    int taskId = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.Task._ID));
-                    dbhelper.updateTaskCompletion(taskId, completed);
+                //update database with completed task
+                cursor.moveToPosition(pos);
+                int taskId = cursor.getInt(cursor.getColumnIndexOrThrow(DbHelper.Task._ID));
+                dbhelper.updateTaskCompletion(taskId, completed);
                 }
             });
 
