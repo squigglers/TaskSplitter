@@ -65,5 +65,6 @@
     <string name="taskname_empty">Please fill out the task name.</string>
     <string name="title_activity_user_tasks">UserTasksActivity</string>
     <string name="view_user_tasks">view user tasks</string>
+    <string name="title_activity_right_drawer_base">RightDrawerBaseActivity</string>
 
 </resources>

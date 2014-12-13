@@ -4,7 +4,7 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 
 
-public class UserTasksActivity extends LoggedInBaseActivity implements SessionInterface {
+public class UserTasksActivity extends RightDrawerBaseActivity implements SessionInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
