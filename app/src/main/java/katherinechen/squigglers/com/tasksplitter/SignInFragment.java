@@ -32,8 +32,6 @@ public class SignInFragment extends Fragment {
         return view;
     }
 
-
-
     //"Sign In" button listener
     private void signInButtonClick(final View view) {
         signInButton.setOnClickListener(new View.OnClickListener() {

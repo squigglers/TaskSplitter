@@ -4,7 +4,6 @@ import android.app.ListFragment;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -23,32 +22,13 @@ public class UserTasksFragment extends ListFragment {
     private int userId;
     private int groupId;
 
-   /* @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        //View view = inflater.inflate(R.layout.activity_user_tasks, container, false);
-
-        userId = getArguments().getInt("userId");
-        return null;
-    }*/
-
     @Override
     public void onResume() {
         super.onResume();
 
-
         //set userId and groupId for which we want to get tasks
-        if(session.getViewOther() == true) {
-            userId = session.getUserToViewId();
-            //session.setViewOther(false);
-        }
-        else {
-            userId = session.getUserId();
-        }
-        //groupId = 1;
-
-        Log.i("userId", " " + userId);
+        userId = 1;
+        groupId = 1;
 
         //get cursor filled with taskId, task name, task description, assignerId
         cursor = dbhelper.getUserTasksInGroup(userId, groupId);

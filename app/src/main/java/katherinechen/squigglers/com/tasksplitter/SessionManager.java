@@ -15,12 +15,7 @@ public class SessionManager {
     int PRIVATE_MODE = 0;
     private static final String PREF_NAME = "TaskSplitterPref";
     private static final String IS_LOGGEDIN = "IsLoggedIn";
-    private static final String VIEW_OTHER = "ViewOther";
     private static final String KEY_USERID = "userID";
-    private static final String USER_TO_VIEW_ID = "UserToViewId";
-
-    int userToViewId;
-    boolean viewOther;
 
     private static final Class LOGOUTACTIVITY = StartPageActivity.class; //activity that user redirects to when logging out
     private static final Class LOGINACTIVITY = MainActivity.class;  //activity that user redirects to when logging in
@@ -85,27 +80,5 @@ public class SessionManager {
     public int getUserId() {
         int userID = pref.getInt(KEY_USERID, -1);
         return userID;
-    }
-
-    public boolean getViewOther() {
-        return pref.getBoolean(VIEW_OTHER, false);
-        //return viewOther;
-    }
-
-    public void setViewOther(boolean view) {
-        editor.putBoolean(VIEW_OTHER, view);
-        editor.commit();
-        //viewOther = view;
-    }
-
-    public int getUserToViewId() {
-        return pref.getInt(USER_TO_VIEW_ID, -1);
-        //return userToViewId;
-    }
-
-    public void setUserToViewId(int id) {
-        editor.putInt(USER_TO_VIEW_ID, id);
-        editor.commit();
-        userToViewId = id;
     }
 }

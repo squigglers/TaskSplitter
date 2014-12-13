@@ -23,7 +23,7 @@
         android:layout_below="@+id/join_group_name_field"
         android:layout_alignLeft="@+id/join_group_name_field"
         android:layout_alignStart="@+id/join_group_name_field"
-        android:maxLength="100" />
+        android:maxLength="@integer/max_length_access_code" />
 
     <Button
         android:layout_width="wrap_content"

@@ -12,7 +12,6 @@ import android.util.Log;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 
 //interacts with database to update database entries
 //note: groupy is the table for group
@@ -91,10 +90,8 @@ public class DbHelper extends SQLiteOpenHelper {
         //where Task.userId = userId and Task.groupId = groupId
         //order by completed
         final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED};
-        //final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?";
-        final String selection = Task.USER_ID + "=?";
-        //final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId)};
-        final String[] selectionArgs = {String.valueOf(userId)};
+        final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?";
+        final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId)};
         final String sortOrder = Task.COMPLETED;
 /*
         return new CursorLoader(activity, null, projection, selection, selectionArgs, null) {
@@ -107,32 +104,7 @@ public class DbHelper extends SQLiteOpenHelper {
 */
         Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 
-        String query = "SELECT " + Task._ID + ", " + Task.TASK_NAME + ", " + Task.DESCRIPTION + ", " +
-                Task.ASSIGNER_ID + ", " + Task.COMPLETED + " FROM " + Task.TABLE_NAME + " WHERE " +
-                Task.USER_ID + " = " + userId; //+ " AND " + Task.GROUP_ID + " = " + groupId;
-        //Cursor c = db.rawQuery(query, null);
         return c;
-    }
-
-    //gets all the groups a user is in and returns it in an array
-    public ArrayList<Group> getUserGroups(int userId) {
-
-        //select groupId from Group, UserGroup where Group.Id = UserGroup.groupId and UserGroup.userId = userId
-        String query = "SELECT " + Groupy._ID + ", " + Groupy.NAME + ", " + Groupy.ACCESSCODE +
-                " FROM " + Groupy.TABLE_NAME + ", " + UserGroup.TABLE_NAME
-                + " WHERE " + Groupy._ID + " = " + UserGroup.GROUP_ID + " AND " + UserGroup.USER_ID + " = " + userId;
-        Cursor c = db.rawQuery(query, null);
-
-        //store all of a user's groupId and groupname into userGroups
-        ArrayList<Group> userGroups = new ArrayList<Group>(c.getCount());
-        if (c.moveToFirst()) {
-            do {
-                Group group = new Group(c.getInt(0), c.getString(1), c.getString(2));
-                userGroups.add(group);
-            } while (c.moveToNext());
-        }
-
-        return userGroups;
     }
 
     //updates whether a user has completed a task
@@ -182,13 +154,13 @@ public class DbHelper extends SQLiteOpenHelper {
     //return groupid if validated, else return -1
     public int validateGroupLogin(String groupName, String accessCode) {
         //get hashed accessCode
-        //String hashedAccessCode = hashPassword(accessCode);
+        String hashedAccessCode = hashPassword(accessCode);
 
         int groupId = -1;
 
         String[] projection = {Groupy._ID, Groupy.NAME, Groupy.ACCESSCODE};
         String selection = Groupy.NAME + "=?" + " AND " + Groupy.ACCESSCODE + "=?";
-        String[] selectionArgs = {groupName, accessCode};//hashedAccessCode};
+        String[] selectionArgs = {groupName, hashedAccessCode};
         Cursor c = db.query(Groupy.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
         if (c.getCount() > 0) {
@@ -278,8 +250,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         ContentValues values = new ContentValues();
         values.put(Groupy.NAME, name);
-        //values.put(Groupy.ACCESSCODE, hashedAccessCode);
-        values.put(Groupy.ACCESSCODE, accessCode);
+        values.put(Groupy.ACCESSCODE, hashedAccessCode);
 
         int groupID = (int) db.insert(Groupy.TABLE_NAME, null, values);
 

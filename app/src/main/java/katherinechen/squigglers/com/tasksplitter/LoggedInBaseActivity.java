@@ -10,5 +10,7 @@ public class LoggedInBaseActivity extends BaseActivity {
 
         //check to make sure user is logged in
         session.checkLogin();
+
+
     }
 }
