@@ -51,9 +51,9 @@ public class UserTasksFragment extends ListFragment {
             cursor = dbhelper.getUserTasksInGroup(userId, groupId);
 
         //which fields we want to display
-        String[] from = new String[]{DbHelper.Task.TASK_NAME, DbHelper.Task.DESCRIPTION};
+        String[] from = new String[]{DbHelper.Task.TASK_NAME, DbHelper.Task.DESCRIPTION, DbHelper.User.NAME};
         //display item we want to bind our data to
-        int[] to = new int[]{R.id.list_task_name, R.id.list_task_description};
+        int[] to = new int[]{R.id.list_task_name, R.id.list_task_description, R.id.list_assigner};
 
         //create simple cursor adapter
         taskAdapter = new TasksCursorAdapter(getActivity(), R.layout.list_tasks, cursor, from, to, 0);
@@ -65,6 +65,10 @@ public class UserTasksFragment extends ListFragment {
         //long click brings up menu with options (reassign, archive)
         if(userId == session.getUserId())
             registerForContextMenu(getListView());
+
+        //if no tasks make toast
+        if(cursor.getCount() == 0)
+            Toast.makeText(getActivity(), getString(R.string.no_user_tasks), Toast.LENGTH_LONG).show();
     }
 
     //<editor-fold desc="long press menu">
@@ -129,15 +133,15 @@ public class UserTasksFragment extends ListFragment {
         TextView assignedBy = (TextView) v.findViewById(R.id.list_assigned_by_text);
         ArrayList<TextView> textviews = new ArrayList<TextView>();    //store TextViews in array to be lazy
         textviews.add(description);
-        //textviews.add(assigner);
-        //textviews.add(assignedBy);
+        textviews.add(assigner);
+        textviews.add(assignedBy);
 
-        if (description.getVisibility() == View.VISIBLE) {
+        if (assignedBy.getVisibility() == View.VISIBLE) {
             for (TextView a : textviews)
                 a.setVisibility(View.GONE);
         } else {
-            if (!description.getText().toString().equals("")) {   //only expand if not empty description
-                for (TextView a : textviews)
+            for(TextView a : textviews) {
+                if(!a.getText().toString().equals(""))
                     a.setVisibility(View.VISIBLE);
             }
         }

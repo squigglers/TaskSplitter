@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 //note: groupy is the table for group
 public class DbHelper extends SQLiteOpenHelper {
 
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
     public static final String DATABASE_NAME = "TaskSplitter.db";
     SQLiteDatabase db;
     Context context;
@@ -127,32 +127,37 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //gets all the tasks based on user and group and returns it in a cursor
     public Cursor getUserTasksInGroup(int userId, int groupId) {
-
-        //select taskId, taskname, taskdescription, assignerId, completed from Task
-        //where Task.userId = userId and Task.groupId = groupId
+        //select taskId, taskname, taskdescription, User.name, completed from Task
+        //where Task.userId = userId and Task.groupId = groupId and Task.assignerId = User.id and Task.archived = 0
         //order by completed
-        final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED};
-        final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?" + " AND " + Task.ARCHIVED + "=?";
-        final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId), "0"};
-        final String sortOrder = Task.COMPLETED;
+        String taskId = Task.TABLE_NAME + "." + Task._ID;
+        String taskUserId = Task.TABLE_NAME + "." + Task.USER_ID;
+        String userUserId = User.TABLE_NAME + "." + User._ID;
 
-        Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+        String query = "SELECT " + taskId + ", " + Task.TASK_NAME + ", " + Task.DESCRIPTION + ", " + User.NAME + ", " + Task.COMPLETED +
+                " FROM " + Task.TABLE_NAME + ", " + User.TABLE_NAME +
+                " WHERE " + taskUserId + " = " + userId + " AND " + Task.GROUP_ID + " = " + groupId +
+                    " AND " + Task.ASSIGNER_ID + " = " + userUserId + " AND " + Task.ARCHIVED + " = 0" +
+                " ORDER BY " + Task.COMPLETED;
 
+        Cursor c = db.rawQuery(query, null);
         return c;
     }
 
     //get all the archived tasks in a group
     public Cursor getArchivedTasksInGroup(int groupId) {
-        //select taskId, taskname, taskdescription, assignerId, completed from Task
-        //where Task.userId = userId and Task.groupId = groupId
+        //select taskId, taskname, taskdescription, User.name, completed from Task
+        //where Task.groupId = groupId and Task.assignerId = User.id and Task.archived = 1
         //order by completed
-        final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED};
-        final String selection = Task.GROUP_ID + "=?" + " AND " + Task.ARCHIVED + "=?";
-        final String[] selectionArgs = {String.valueOf(groupId), "1"};
-        final String sortOrder = Task.COMPLETED;
+        String taskId = Task.TABLE_NAME + "." + Task._ID;
+        String userUserId = User.TABLE_NAME + "." + User._ID;
 
-        Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+        String query = "SELECT " + taskId + ", " + Task.TASK_NAME + ", " + Task.DESCRIPTION + ", " + User.NAME + ", " + Task.COMPLETED +
+                " FROM " + Task.TABLE_NAME + ", " + User.TABLE_NAME +
+                " WHERE " + Task.GROUP_ID + " = " + groupId + " AND " + Task.ASSIGNER_ID + " = " + userUserId + " AND " + Task.ARCHIVED + " = 1" +
+                " ORDER BY " + Task.COMPLETED;
 
+        Cursor c = db.rawQuery(query, null);
         return c;
     }
 
@@ -427,7 +432,7 @@ public class DbHelper extends SQLiteOpenHelper {
         public static final String GROUP_ID = "groupId";        //group that the task is in
         public static final String ASSIGNER_ID = "fromUserId";  //user that assigned the task
         public static final String USER_ID = "toUserId";     //user that the task is assigned to
-        public static final String TASK_NAME = "name";
+        public static final String TASK_NAME = "taskname";
         public static final String DESCRIPTION = "description";
         public static final String DUE_DATE = "dueDate";
         public static final String COMPLETED = "completed";
