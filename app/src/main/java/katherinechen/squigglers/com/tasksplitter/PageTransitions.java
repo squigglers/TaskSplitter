@@ -35,17 +35,16 @@ public class PageTransitions {
     }
 
     //go to usertasksactivity with archived tasks
-    public static void archivedTasks(int groupId, String groupName, int userId, Context context) {
+    public static void goToTasksPage(int groupId, String groupName, int userId, boolean archived, Context context) {
         //start new intent for the new activity
         Intent intent = new Intent(context, UserTasksActivity.class);
-        boolean archived = false;
 
         //bundle
         Bundle bundle = new Bundle();
         bundle.putInt(GROUPID, groupId);
         bundle.putString(GROUPNAME, groupName);
         bundle.putInt(USERID, userId);
-        bundle.putBoolean(ARCHIVED, true);
+        bundle.putBoolean(ARCHIVED, archived);
         intent.putExtras(bundle);
 
         //clear backstack

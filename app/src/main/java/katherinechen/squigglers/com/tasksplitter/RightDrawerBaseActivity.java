@@ -75,7 +75,7 @@ public class RightDrawerBaseActivity extends LoggedInBaseActivity {
     private void onClickMenuArchivedTasks(MenuItem item) {
         Intent intent = new Intent(this, UserTasksActivity.class);
         String groupName = dbhelper.getGroupName(chosenGroupId);
-        PageTransitions.archivedTasks(chosenGroupId, groupName, chosenUserId, this);
+        PageTransitions.goToTasksPage(chosenGroupId, groupName, chosenUserId, true, this);
     }
 
     //open new user tasks activity with the group selected and the current user's tasks
@@ -85,6 +85,6 @@ public class RightDrawerBaseActivity extends LoggedInBaseActivity {
 
         //go to group page
         String groupName = dbhelper.getGroupName(chosenGroupId);
-        PageTransitions.goToGroupPage(chosenGroupId, groupName, chosenUserId, this);
+        PageTransitions.goToTasksPage(chosenGroupId, groupName, chosenUserId, false, this);
     }
 }

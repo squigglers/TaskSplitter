@@ -25,6 +25,7 @@ public class UserTasksFragment extends ListFragment {
     private SessionManager session;
     private DbHelper dbhelper;
     private Cursor cursor;
+    TasksCursorAdapter taskAdapter;
 
     private int userId;
     private int groupId;
@@ -32,9 +33,14 @@ public class UserTasksFragment extends ListFragment {
     private boolean archived;
 
     @Override
-        public void onResume() {
-            super.onResume();
+    public void onResume() {
+        super.onResume();
 
+        refreshList();
+    }
+
+    //refresh list
+    private void refreshList() {
         //cursor filled with taskId, task name, task description, assignerId
         //get archived tasks if archived
         if(archived)
@@ -50,8 +56,7 @@ public class UserTasksFragment extends ListFragment {
         int[] to = new int[]{R.id.list_task_name, R.id.list_task_description};
 
         //create simple cursor adapter
-        TasksCursorAdapter taskAdapter =
-                new TasksCursorAdapter(getActivity(), R.layout.list_tasks, cursor, from, to, 0);
+        taskAdapter = new TasksCursorAdapter(getActivity(), R.layout.list_tasks, cursor, from, to, 0);
         setListAdapter(taskAdapter);
 
         //disable seeing the scroll bar in the listview
@@ -62,6 +67,7 @@ public class UserTasksFragment extends ListFragment {
             registerForContextMenu(getListView());
     }
 
+    //<editor-fold desc="long press menu">
     //long press inflates floating context menu with options (reassign, archive)
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -75,6 +81,7 @@ public class UserTasksFragment extends ListFragment {
 
         //inflate menu
         MenuInflater inflater = getActivity().getMenuInflater();
+
         inflater.inflate(R.menu.taskmenu, menu);
     }
 
@@ -106,7 +113,10 @@ public class UserTasksFragment extends ListFragment {
     private void archiveTask() {
         dbhelper.archiveTask(taskId);
         Toast.makeText(getActivity(), getString(R.string.task_archived), Toast.LENGTH_LONG).show();
+
+        refreshList();
     }
+    //</editor-fold>
 
     //expands the task to be able to see the description when clicked on
     @Override
@@ -117,7 +127,7 @@ public class UserTasksFragment extends ListFragment {
         TextView description = (TextView) v.findViewById(R.id.list_task_description);
         TextView assigner = (TextView) v.findViewById(R.id.list_assigner);
         TextView assignedBy = (TextView) v.findViewById(R.id.list_assigned_by_text);
-        final ArrayList<TextView> textviews = new ArrayList<TextView>();    //store TextViews in array to be lazy
+        ArrayList<TextView> textviews = new ArrayList<TextView>();    //store TextViews in array to be lazy
         textviews.add(description);
         //textviews.add(assigner);
         //textviews.add(assignedBy);
@@ -133,6 +143,7 @@ public class UserTasksFragment extends ListFragment {
         }
     }
 
+    //<editor-fold desc="communication between activity and fragment">
     public void setSession(SessionManager session) {
         this.session = session;
     }
@@ -150,6 +161,7 @@ public class UserTasksFragment extends ListFragment {
     public void setArchived(boolean archived) {
         this.archived = archived;
     }
+    //</editor-fold>
 
     //custom cursor adapter for the tasks
     private class TasksCursorAdapter extends SimpleCursorAdapter {
@@ -209,6 +221,20 @@ public class UserTasksFragment extends ListFragment {
             });
 
             return view;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+            if(getCount() < 1)
+                return super.getViewTypeCount();
+            else
+                return getCount();
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+
+            return position;
         }
 
         //strikes a line through the task
