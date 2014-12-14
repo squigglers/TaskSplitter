@@ -11,16 +11,20 @@ public class PageTransitions {
     public static String GROUPNAME = "GROUPNAME";
 
     public static String TASKID = "TASKID";
+    public static String ARCHIVED = "ARCHIVED";
 
-    public static void goToGroupPage(int groupId, String groupName, Context context, SessionManager session){
+    //grouppage for current user
+    public static void goToGroupPage(int groupId, String groupName, int userId, Context context){
         //start new intent for the new activity
         Intent intent = new Intent(context, GroupPageActivity.class);
+        boolean archived = false;
 
-        //bundle groupid and userid
+        //bundle
         Bundle bundle = new Bundle();
         bundle.putInt(GROUPID, groupId);
-        bundle.putInt(USERID, session.getUserId());
         bundle.putString(GROUPNAME, groupName);
+        bundle.putInt(USERID, userId);
+        bundle.putBoolean(ARCHIVED, false);
         intent.putExtras(bundle);
 
         //clear backstack
@@ -30,15 +34,18 @@ public class PageTransitions {
         context.startActivity(intent);
     }
 
-    public static void goToGroupPage(int groupId, String groupName, int userId, Context context, SessionManager session){
+    //go to usertasksactivity with archived tasks
+    public static void archivedTasks(int groupId, String groupName, int userId, Context context) {
         //start new intent for the new activity
         Intent intent = new Intent(context, UserTasksActivity.class);
+        boolean archived = false;
 
-        //bundle groupid and userid
+        //bundle
         Bundle bundle = new Bundle();
         bundle.putInt(GROUPID, groupId);
-        bundle.putInt(USERID, userId);
         bundle.putString(GROUPNAME, groupName);
+        bundle.putInt(USERID, userId);
+        bundle.putBoolean(ARCHIVED, true);
         intent.putExtras(bundle);
 
         //clear backstack

@@ -115,9 +115,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
     //get the task description based on task id
     public Cursor getTaskInfo(int taskId) {
-        //select taskId, taskname, taskdescription, assignerId, completed from Task
+        //select taskId, taskname, taskdescription, assignerId, completed, groupId, archived from Task
         //where Task.ID = taskId
-        final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED, Task.GROUP_ID};
+        final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED, Task.GROUP_ID, Task.ARCHIVED};
         final String selection = Task._ID + "=?";
         final String[] selectionArgs = {String.valueOf(taskId)};
 
@@ -132,13 +132,54 @@ public class DbHelper extends SQLiteOpenHelper {
         //where Task.userId = userId and Task.groupId = groupId
         //order by completed
         final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED};
-        final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?";
-        final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId)};
+        final String selection = Task.USER_ID + "=?" + " AND " + Task.GROUP_ID + "=?" + " AND " + Task.ARCHIVED + "=?";
+        final String[] selectionArgs = {String.valueOf(userId), String.valueOf(groupId), "0"};
         final String sortOrder = Task.COMPLETED;
 
         Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 
         return c;
+    }
+
+    //get all the archived tasks in a group
+    public Cursor getArchivedTasksInGroup(int groupId) {
+        //select taskId, taskname, taskdescription, assignerId, completed from Task
+        //where Task.userId = userId and Task.groupId = groupId
+        //order by completed
+        final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED};
+        final String selection = Task.GROUP_ID + "=?" + " AND " + Task.ARCHIVED + "=?";
+        final String[] selectionArgs = {String.valueOf(groupId), "1"};
+        final String sortOrder = Task.COMPLETED;
+
+        Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+
+        return c;
+    }
+
+    //update a task to be archived
+    public void archiveTask(int taskId) {
+        // new value for one column
+        ContentValues values = new ContentValues();
+        values.put(Task.ARCHIVED, 1);
+
+        //which row to update, based on the ID
+        String selection = Task._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(taskId)};
+
+        db.update(Task.TABLE_NAME, values, selection, selectionArgs);
+    }
+
+    //update a task to be archived
+    public void unarchiveTask(int taskId) {
+        // new value for one column
+        ContentValues values = new ContentValues();
+        values.put(Task.ARCHIVED, 0);
+
+        //which row to update, based on the ID
+        String selection = Task._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(taskId)};
+
+        db.update(Task.TABLE_NAME, values, selection, selectionArgs);
     }
 
     //update a task with a different user
@@ -313,7 +354,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
     public void addTask(int groupId, int toUserId, int assignerId,
-                        String taskName, String description, String dueDate, int completed) {
+                        String taskName, String description, String dueDate, int completed, int archived) {
         ContentValues values = new ContentValues();
         values.put(Task.GROUP_ID, groupId);
         values.put(Task.USER_ID, toUserId);
@@ -322,6 +363,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(Task.DESCRIPTION, description);
         values.put(Task.DUE_DATE, dueDate);
         values.put(Task.COMPLETED, completed);
+        values.put(Task.ARCHIVED, archived);
 
         db.insert(Task.TABLE_NAME, null, values);
     }
@@ -389,6 +431,7 @@ public class DbHelper extends SQLiteOpenHelper {
         public static final String DESCRIPTION = "description";
         public static final String DUE_DATE = "dueDate";
         public static final String COMPLETED = "completed";
+        public static final String ARCHIVED = "archived";
 
         public static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -399,7 +442,8 @@ public class DbHelper extends SQLiteOpenHelper {
                         TASK_NAME + " TEXT, " +
                         DESCRIPTION + " TEXT, " +
                         DUE_DATE + " TEXT, " +
-                        COMPLETED + " INTEGER)";
+                        COMPLETED + " INTEGER, " +
+                        ARCHIVED + " INTEGER)";
 
         public static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + TABLE_NAME;

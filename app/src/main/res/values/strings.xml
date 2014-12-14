@@ -71,5 +71,8 @@
     <string name="archive_task">Archive Task</string>
     <string name="reassign_task">Reassign Task</string>
     <string name="title_activity_reassign">ReassignActivity</string>
+    <string name="task_reassigned">Task has been reassigned.</string>
+    <string name="task_archived">Task has been archived.</string>
+    <string name="archived_tasks">Archived Tasks</string>
 
 </resources>

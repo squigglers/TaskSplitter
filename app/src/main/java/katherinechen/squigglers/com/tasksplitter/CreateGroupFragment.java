@@ -64,7 +64,7 @@ public class CreateGroupFragment extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.group_created_toast), Toast.LENGTH_LONG).show();
 
             //go to group page
-            PageTransitions.goToGroupPage(groupId, groupName, getActivity(), session);
+            PageTransitions.goToGroupPage(groupId, groupName, session.getUserId(), getActivity());
         }
     }
 

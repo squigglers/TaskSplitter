@@ -1,6 +1,9 @@
 package katherinechen.squigglers.com.tasksplitter;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -40,12 +43,39 @@ public class RightDrawerBaseActivity extends LoggedInBaseActivity {
         rightDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                rightCursor.moveToPosition(position);
-                chosenUserId = rightCursor.getInt(rightCursor.getColumnIndexOrThrow(DbHelper.User._ID));
+            rightCursor.moveToPosition(position);
+            chosenUserId = rightCursor.getInt(rightCursor.getColumnIndexOrThrow(DbHelper.User._ID));
 
-                selectUser();
+            selectUser();
             }
         });
+    }
+
+    //inflates a menu that includes archived tasks
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.groupmenu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean handled = true;
+        int id = item.getItemId();
+
+        if (id == R.id.menu_archived_tasks)
+            onClickMenuArchivedTasks(item);
+        else
+            handled = super.onOptionsItemSelected(item);
+
+        return handled;
+    }
+
+    //open archived tasks
+    private void onClickMenuArchivedTasks(MenuItem item) {
+        Intent intent = new Intent(this, UserTasksActivity.class);
+        String groupName = dbhelper.getGroupName(chosenGroupId);
+        PageTransitions.archivedTasks(chosenGroupId, groupName, chosenUserId, this);
     }
 
     //open new user tasks activity with the group selected and the current user's tasks
@@ -55,6 +85,6 @@ public class RightDrawerBaseActivity extends LoggedInBaseActivity {
 
         //go to group page
         String groupName = dbhelper.getGroupName(chosenGroupId);
-        PageTransitions.goToGroupPage(chosenGroupId, groupName, chosenUserId, this, session);
+        PageTransitions.goToGroupPage(chosenGroupId, groupName, chosenUserId, this);
     }
 }

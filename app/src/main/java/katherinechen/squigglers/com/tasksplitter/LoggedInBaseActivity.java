@@ -66,6 +66,6 @@ public class LoggedInBaseActivity extends BaseActivity {
         drawerLayout.closeDrawer(leftDrawerList);
 
         //go to group page
-        PageTransitions.goToGroupPage(chosenGroupId, groupName, this, session);
+        PageTransitions.goToGroupPage(chosenGroupId, groupName, session.getUserId(), this);
     }
 }

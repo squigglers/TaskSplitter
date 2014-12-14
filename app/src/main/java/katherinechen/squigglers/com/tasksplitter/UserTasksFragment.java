@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -28,16 +29,23 @@ public class UserTasksFragment extends ListFragment {
     private int userId;
     private int groupId;
     private int taskId;
+    private boolean archived;
 
     @Override
         public void onResume() {
             super.onResume();
 
-            //get cursor filled with taskId, task name, task description, assignerId
+        //cursor filled with taskId, task name, task description, assignerId
+        //get archived tasks if archived
+        if(archived)
+            cursor = dbhelper.getArchivedTasksInGroup(groupId);
+
+        //else get non-archived tasks
+        else
             cursor = dbhelper.getUserTasksInGroup(userId, groupId);
 
-            //which fields we want to display
-            String[] from = new String[]{DbHelper.Task.TASK_NAME, DbHelper.Task.DESCRIPTION};
+        //which fields we want to display
+        String[] from = new String[]{DbHelper.Task.TASK_NAME, DbHelper.Task.DESCRIPTION};
         //display item we want to bind our data to
         int[] to = new int[]{R.id.list_task_name, R.id.list_task_description};
 
@@ -94,8 +102,10 @@ public class UserTasksFragment extends ListFragment {
         getActivity().startActivity(intent);
     }
 
+    //archive task
     private void archiveTask() {
-
+        dbhelper.archiveTask(taskId);
+        Toast.makeText(getActivity(), getString(R.string.task_archived), Toast.LENGTH_LONG).show();
     }
 
     //expands the task to be able to see the description when clicked on
@@ -135,6 +145,10 @@ public class UserTasksFragment extends ListFragment {
     public void setIDs(int groupId, int userId) {
         this.groupId = groupId;
         this.userId = userId;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
     }
 
     //custom cursor adapter for the tasks

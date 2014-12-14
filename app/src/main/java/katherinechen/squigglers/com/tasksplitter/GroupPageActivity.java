@@ -19,6 +19,7 @@ public class GroupPageActivity extends RightDrawerBaseActivity implements Sessio
         int bundleGroupId = getIntent().getExtras().getInt(PageTransitions.GROUPID);
         int bundleUserId = getIntent().getExtras().getInt(PageTransitions.USERID);
         String bundleGroupName = getIntent().getExtras().getString(PageTransitions.GROUPNAME);
+        boolean bundleArchived = getIntent().getExtras().getBoolean(PageTransitions.ARCHIVED);
 
         //set title of activity
         setTitle(bundleGroupName);
@@ -36,5 +37,6 @@ public class GroupPageActivity extends RightDrawerBaseActivity implements Sessio
         fragment2.setSession(session);
         fragment2.setDbhelper(dbhelper);
         fragment2.setIDs(bundleGroupId, bundleUserId);
+        fragment2.setArchived(bundleArchived);
     }
 }

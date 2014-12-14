@@ -121,7 +121,7 @@ public class CreateTaskFragment extends Fragment {
 
     //insert task info into Task table
     private void createTask(String taskname, String taskdescription, int groupId, int toUserId) {
-        dbhelper.addTask(groupId, session.getUserId(), toUserId, taskname, taskdescription, null, 0);
+        dbhelper.addTask(groupId, session.getUserId(), toUserId, taskname, taskdescription, null, 0, 0);
     }
 
 

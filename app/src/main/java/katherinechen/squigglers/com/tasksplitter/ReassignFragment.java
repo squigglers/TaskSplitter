@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 public class ReassignFragment extends ListFragment {
 
@@ -51,6 +52,7 @@ public class ReassignFragment extends ListFragment {
         //update the task with the new user
         dbhelper.changeTaskUser(taskId, userId);
 
+        Toast.makeText(getActivity(), getString(R.string.task_reassigned), Toast.LENGTH_LONG).show();
         getActivity().finish();
     }
 

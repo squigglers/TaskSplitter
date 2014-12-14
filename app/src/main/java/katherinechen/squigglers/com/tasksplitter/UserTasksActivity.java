@@ -20,6 +20,7 @@ public class UserTasksActivity extends RightDrawerBaseActivity implements Sessio
         int bundleGroupId = getIntent().getExtras().getInt(PageTransitions.GROUPID);
         int bundleUserId = getIntent().getExtras().getInt(PageTransitions.USERID);
         String bundleGroupName = getIntent().getExtras().getString(PageTransitions.GROUPNAME);
+        boolean bundleArchived = getIntent().getExtras().getBoolean(PageTransitions.ARCHIVED);
 
         //set title
         setTitle(bundleGroupName);
@@ -30,5 +31,6 @@ public class UserTasksActivity extends RightDrawerBaseActivity implements Sessio
         fragment.setSession(session);
         fragment.setDbhelper(dbhelper);
         fragment.setIDs(bundleGroupId, bundleUserId);
+        fragment.setArchived(bundleArchived);
     }
 }
