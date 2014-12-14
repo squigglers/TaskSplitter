@@ -2,10 +2,16 @@ package katherinechen.squigglers.com.tasksplitter;
 
 import android.app.ListFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Paint;
+import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ListView;
@@ -21,16 +27,17 @@ public class UserTasksFragment extends ListFragment {
 
     private int userId;
     private int groupId;
+    private int taskId;
 
     @Override
-    public void onResume() {
-        super.onResume();
+        public void onResume() {
+            super.onResume();
 
-        //get cursor filled with taskId, task name, task description, assignerId
-        cursor = dbhelper.getUserTasksInGroup(userId, groupId);
+            //get cursor filled with taskId, task name, task description, assignerId
+            cursor = dbhelper.getUserTasksInGroup(userId, groupId);
 
-        //which fields we want to display
-        String[] from = new String[]{DbHelper.Task.TASK_NAME, DbHelper.Task.DESCRIPTION};
+            //which fields we want to display
+            String[] from = new String[]{DbHelper.Task.TASK_NAME, DbHelper.Task.DESCRIPTION};
         //display item we want to bind our data to
         int[] to = new int[]{R.id.list_task_name, R.id.list_task_description};
 
@@ -41,6 +48,54 @@ public class UserTasksFragment extends ListFragment {
 
         //disable seeing the scroll bar in the listview
         getListView().setVerticalScrollBarEnabled(false);
+
+        //long click brings up menu with options (reassign, archive)
+        if(userId == session.getUserId())
+            registerForContextMenu(getListView());
+    }
+
+    //long press inflates floating context menu with options (reassign, archive)
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        //get taskId of clicked on thing
+        AdapterView.AdapterContextMenuInfo info;
+        info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        Cursor c = (Cursor) getListAdapter().getItem(info.position);
+        taskId = c.getInt(c.getColumnIndexOrThrow(DbHelper.Task._ID));
+
+        //inflate menu
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.taskmenu, menu);
+    }
+
+    //context menu options
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int id = item.getItemId();
+
+        if(id == R.id.menu_reassign_task)
+            reassignTask();
+        else if(id == R.id.menu_archive_task)
+            archiveTask();
+
+        return super.onContextItemSelected(item);
+    }
+
+    //reassigntask to someone else
+    private void reassignTask() {
+        //start reassignactivity to reassign task
+        Intent intent = new Intent(getActivity(), ReassignActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putInt(PageTransitions.TASKID, taskId);
+        intent.putExtras(bundle);
+        getActivity().startActivity(intent);
+    }
+
+    private void archiveTask() {
+
     }
 
     //expands the task to be able to see the description when clicked on

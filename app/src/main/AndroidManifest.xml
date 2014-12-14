@@ -54,7 +54,11 @@
         </activity>
         <activity
             android:name=".GroupPageActivity"
-            android:label="@string/title_activity_group_page">
+            android:label="@string/title_activity_group_page" >
+        </activity>
+        <activity
+            android:name=".ReassignActivity"
+            android:label="@string/title_activity_reassign" >
         </activity>
     </application>
 

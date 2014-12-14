@@ -10,6 +10,8 @@ public class PageTransitions {
     public static String USERID = "USERID";
     public static String GROUPNAME = "GROUPNAME";
 
+    public static String TASKID = "TASKID";
+
     public static void goToGroupPage(int groupId, String groupName, Context context, SessionManager session){
         //start new intent for the new activity
         Intent intent = new Intent(context, GroupPageActivity.class);

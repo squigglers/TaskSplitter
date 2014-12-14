@@ -50,11 +50,11 @@ public class LoggedInBaseActivity extends BaseActivity {
         leftDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                leftCursor.moveToPosition(position);
-                chosenGroupId = leftCursor.getInt(leftCursor.getColumnIndexOrThrow(DbHelper.Groupy._ID));
-                String groupName = leftCursor.getString(leftCursor.getColumnIndexOrThrow(DbHelper.Groupy.NAME));
+            leftCursor.moveToPosition(position);
+            chosenGroupId = leftCursor.getInt(leftCursor.getColumnIndexOrThrow(DbHelper.Groupy._ID));
+            String groupName = leftCursor.getString(leftCursor.getColumnIndexOrThrow(DbHelper.Groupy.NAME));
 
-                selectGroup(groupName);
+            selectGroup(groupName);
             }
         });
     }

@@ -115,7 +115,7 @@ public class CreateTaskFragment extends Fragment {
             //toast to show task is created
             Toast.makeText(getActivity(), getString(R.string.task_created), Toast.LENGTH_LONG).show();
 
-            //SEND USER TO DIFFERENT PAGE IDK
+            getActivity().finish();
         }
     }
 

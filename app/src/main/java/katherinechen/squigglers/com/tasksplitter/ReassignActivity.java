@@ -3,23 +3,26 @@ package katherinechen.squigglers.com.tasksplitter;
 import android.app.FragmentManager;
 import android.os.Bundle;
 
-
-public class CreateGroupActivity extends LoggedInBaseActivity implements SessionInterface {
+public class ReassignActivity extends LoggedInBaseActivity implements SessionInterface {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_group);
+        setContentView(R.layout.activity_reassign);
 
         setFragmentInfo();
     }
 
     @Override
     public void setFragmentInfo() {
+        //get taskid from bundle
+        int taskId = getIntent().getExtras().getInt(PageTransitions.TASKID);
+
         FragmentManager fm = getFragmentManager();
-        CreateGroupFragment fragment = (CreateGroupFragment) fm.findFragmentById(R.id.create_group_fragment);
+        ReassignFragment fragment = (ReassignFragment) fm.findFragmentById(R.id.reassign_fragment);
 
         fragment.setSession(session);
         fragment.setDbhelper(dbhelper);
+        fragment.setIDs(taskId);
     }
 }

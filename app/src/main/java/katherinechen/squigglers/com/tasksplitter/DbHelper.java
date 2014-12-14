@@ -113,6 +113,18 @@ public class DbHelper extends SQLiteOpenHelper {
         return groupName;
     }
 
+    //get the task description based on task id
+    public Cursor getTaskInfo(int taskId) {
+        //select taskId, taskname, taskdescription, assignerId, completed from Task
+        //where Task.ID = taskId
+        final String[] projection = {Task._ID, Task.TASK_NAME, Task.DESCRIPTION, Task.ASSIGNER_ID, Task.COMPLETED, Task.GROUP_ID};
+        final String selection = Task._ID + "=?";
+        final String[] selectionArgs = {String.valueOf(taskId)};
+
+        Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        return c;
+    }
+
     //gets all the tasks based on user and group and returns it in a cursor
     public Cursor getUserTasksInGroup(int userId, int groupId) {
 
@@ -127,6 +139,19 @@ public class DbHelper extends SQLiteOpenHelper {
         Cursor c = db.query(Task.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
 
         return c;
+    }
+
+    //update a task with a different user
+    public void changeTaskUser(int taskId, int userId) {
+        // new value for one column
+        ContentValues values = new ContentValues();
+        values.put(Task.USER_ID, userId);
+
+        //which row to update, based on the ID
+        String selection = Task._ID + " LIKE ?";
+        String[] selectionArgs = {String.valueOf(taskId)};
+
+        db.update(Task.TABLE_NAME, values, selection, selectionArgs);
     }
 
     //updates whether a user has completed a task

@@ -3,7 +3,7 @@
     tools:context=".MainActivity" >
     <item android:id="@+id/menu_create_task"
         android:title="@string/create_task"
-        android:showAsAction="always" />
+        android:showAsAction="never" />
     <item android:id="@+id/menu_create_group"
         android:title="@string/create_group"
         android:orderInCategory="100"

@@ -67,5 +67,9 @@
     <string name="view_user_tasks">view user tasks</string>
     <string name="title_activity_right_drawer_base">RightDrawerBaseActivity</string>
     <string name="title_activity_group_page">GroupPageActivity</string>
+    <string name="delete_task">Delete Task</string>
+    <string name="archive_task">Archive Task</string>
+    <string name="reassign_task">Reassign Task</string>
+    <string name="title_activity_reassign">ReassignActivity</string>
 
 </resources>
