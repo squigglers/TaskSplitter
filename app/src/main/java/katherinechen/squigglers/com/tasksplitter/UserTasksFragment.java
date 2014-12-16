@@ -187,8 +187,8 @@ public class UserTasksFragment extends ListFragment {
             final ArrayList<TextView> textviews = new ArrayList<TextView>();    //store TextViews in array to be lazy
             textviews.add(taskname);
             textviews.add(taskdescription);
-            //textviews.add(assigner);
-            //textviews.add(assignedBy);
+            textviews.add(assigner);
+            textviews.add(assignedBy);
 
             //disable checkbox if not user
             CheckBox checkbox = (CheckBox) view.findViewById(R.id.checkBox);

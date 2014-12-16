@@ -113,6 +113,21 @@ public class DbHelper extends SQLiteOpenHelper {
         return groupName;
     }
 
+    //gets the user name based on userId
+    public String getUserName(int userId) {
+        //select name from User where User.userId = userId
+        final String[] projection = {User.NAME};
+        final String selection = User._ID + "=?";
+        final String[] selectionArgs = {String.valueOf(userId)};
+
+        Cursor c = db.query(User.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+
+        c.moveToFirst();
+        String name = c.getString(c.getColumnIndexOrThrow(User.NAME));
+
+        return name;
+    }
+
     //get the task description based on task id
     public Cursor getTaskInfo(int taskId) {
         //select taskId, taskname, taskdescription, assignerId, completed, groupId, archived from Task
