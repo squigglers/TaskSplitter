@@ -59,7 +59,7 @@
     <string name="assign_to">Assign To</string>
     <string name="description_hint">Description</string>
     <string name="deadline_hint">Deadline</string>
-    <string name="title_activity_start_page">StartPageActivity</string>
+    <string name="title_activity_start_page">Task Splitter</string>
     <string name="not_in_any_groups">You are not in any groups.</string>
     <string name="task_created">Task created.</string>
     <string name="taskname_empty">Please fill out the task name.</string>

@@ -9,36 +9,42 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:launchMode="singleInstance" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".CreateGroupActivity"
-            android:label="@string/create_group" >
+            android:label="@string/create_group"
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".JoinGroupActivity"
-            android:label="@string/join_group" >
+            android:label="@string/join_group"
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".SignInActivity"
-            android:label="@string/sign_in" >
+            android:label="@string/sign_in"
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/register" >
+            android:label="@string/register"
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".CreateTaskActivity"
-            android:label="@string/create_task" >
+            android:label="@string/create_task"
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".StartPageActivity"
-            android:label="@string/title_activity_start_page" >
+            android:label="@string/title_activity_start_page"
+            android:launchMode="singleInstance" >
         </activity>
         <activity
             android:name=".UserTasksActivity"

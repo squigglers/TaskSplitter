@@ -5,4 +5,5 @@
     <dimen name="input_field_width">200dp</dimen>
     <dimen name="input_field_top_margin">30dp</dimen>
     <dimen name="create_task_width">300dp</dimen>
+    <dimen name="LogoSize">100dp</dimen>
 </resources>

@@ -10,9 +10,38 @@
     tools:context="katherinechen.squigglers.com.tasksplitter.StartPageActivity">
 
     <TextView
-        style="@style/textView"
-        android:text="@string/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Task"
+        android:id="@+id/textView"
+        android:textSize="@dimen/LogoSize"
+        android:textAlignment="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Split"
+        android:id="@+id/textView2"
+        android:textSize="@dimen/LogoSize"
+        android:textAlignment="center"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="ter"
+        android:id="@+id/textView3"
+        android:textSize="@dimen/LogoSize"
+        android:textAlignment="center"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
