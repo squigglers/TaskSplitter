@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditText
+        style="@style/editText"
         android:layout_width="@dimen/input_field_width"
         android:layout_height="wrap_content"
         android:id="@+id/create_group_name_field"
@@ -15,6 +16,7 @@
         android:maxLength="@integer/max_length_groupname" />
 
     <Button
+        style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_group"

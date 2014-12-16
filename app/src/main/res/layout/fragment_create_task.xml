@@ -4,6 +4,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <EditText
+        style="@style/editText"
         android:layout_width="@dimen/create_task_width"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
@@ -16,6 +17,7 @@
         android:maxLength="@integer/max_length_name" />
 
     <EditText
+        style="@style/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/taskDescription"
@@ -28,6 +30,7 @@
         android:inputType="textMultiLine" />
 
     <TextView
+        style="@style/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -48,6 +51,7 @@
         android:layout_alignEnd="@+id/taskDescription" />
 
     <TextView
+        style="@style/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -68,6 +72,7 @@
         android:layout_alignEnd="@+id/groupSpinner" />
 
     <Button
+        style="@style/Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_task"
