@@ -23,8 +23,13 @@ public class UserTasksActivity extends RightDrawerBaseActivity implements Sessio
         boolean bundleArchived = getIntent().getExtras().getBoolean(PageTransitions.ARCHIVED);
 
         //set title
-        String userName = dbhelper.getUserName(bundleUserId);
-        String title = bundleGroupName + " - " + userName;
+        String title;
+        if(bundleUserId != 0) { //for archived tasks
+            String userName = dbhelper.getUserName(bundleUserId);
+            title = bundleGroupName + " - " + userName;
+        }
+        else
+            title = bundleGroupName + " - archived";
         setTitle(title);
 
         FragmentManager fm = getFragmentManager();

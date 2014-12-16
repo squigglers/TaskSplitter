@@ -7,14 +7,14 @@
         style="@style/editText"
         android:layout_width="@dimen/create_task_width"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/taskName"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/input_field_top_margin"
         android:hint="@string/task_name_hint"
-        android:maxLength="@integer/max_length_name" />
+        android:maxLength="@integer/max_length_name"
+        android:inputType="textCapWords|textAutoCorrect" />
 
     <EditText
         style="@style/editText"
@@ -27,7 +27,7 @@
         android:layout_alignRight="@+id/taskName"
         android:layout_alignEnd="@+id/taskName"
         android:hint="@string/description_hint"
-        android:inputType="textMultiLine" />
+        android:inputType="textCapSentences|textMultiLine" />
 
     <TextView
         style="@style/textView"
